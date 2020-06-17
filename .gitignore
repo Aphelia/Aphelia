@@ -1,0 +1,6 @@
+token
+target
+*.iml
+dependency-reduced-pom.xml
+GuildData
+.idea
