@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>to.us.awesomest</groupId>
-    <artifactId>MyBit</artifactId>
+    <artifactId>Aphelia</artifactId>
     <version>0.10-RELEASE</version>
     <build>
         <plugins>
@@ -16,7 +16,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>to.us.awesomest.mybit.MyBit</mainClass>
+                            <mainClass>to.us.awesomest.aphelia.Aphelia</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
