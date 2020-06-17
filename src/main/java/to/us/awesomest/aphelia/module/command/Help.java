@@ -30,6 +30,7 @@ public class Help implements Command {
         for(Command command : ModuleManager.getInstanceByGuildId(guild.getId()).getEnabledCommands()) {
             commandListBuilder.addField(ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + command.getName(), command.getDescription(),false);
         }
+        commandListBuilder.addField("", "*Like my command set? [Invite me!](https://aphelia.github.io/invite)*", false);
         channel.sendMessage(commandListBuilder.build()).queue();
         EmbedBuilder shortcutListBuilder = new EmbedBuilder();
         shortcutListBuilder
@@ -41,6 +42,7 @@ public class Help implements Command {
             shortcutListBuilder.addField(shortcut.getKey(), shortcut.getValue(),false);
         }
         if(shortcutListBuilder.getFields().isEmpty()) shortcutListBuilder.addField("", "*No shortcuts have been defined. Go define some (or, if you don't have permissions, ask a manager to do it for you)!*", false);
+        shortcutListBuilder.addField("", "*Like my command set? [Invite me!](https://aphelia.github.io/invite)*", false);
         channel.sendMessage(shortcutListBuilder.build()).queue();
     }
 
