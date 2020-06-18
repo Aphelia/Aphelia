@@ -1,7 +1,5 @@
 package to.us.awesomest.aphelia.data;
 
-import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -18,9 +16,9 @@ public class PrefixData implements GuildDataHandler {
     public static PrefixData getInstanceByGuildId(String guildIdInstance) {
         if (!guildInstanceMap.containsKey(guildIdInstance)) {
             guildInstanceMap.put(guildIdInstance, new PrefixData());
-            HashMap<String, String> file = DataUtils.readFile(guildIdInstance, "prefixData");
-            if (file != null)
-                guildInstanceMap.get(guildIdInstance).prefix = file.get("prefix");
+            String prefix = DataUtils.readRaw(guildIdInstance, "prefixData");
+            if (prefix != null)
+                guildInstanceMap.get(guildIdInstance).prefix = prefix;
             else guildInstanceMap.get(guildIdInstance).setEntry("prefix", "!");
         }
         guildInstanceMap.get(guildIdInstance).guildId = guildIdInstance;
@@ -30,13 +28,7 @@ public class PrefixData implements GuildDataHandler {
     @Override
     public void setEntry(String key, String value) {
         prefix = value;
-        HashMap<String, String> tempMap = new HashMap<String, String>() {
-            {
-                put("prefix", value);
-            }
-        };
-        LoggerFactory.getLogger("PrefixData").debug(tempMap.toString());
-        DataUtils.writeFile(guildId, "prefixData", tempMap);
+        DataUtils.writeRaw(guildId, "prefixData", value);
     }
 
     @Override
