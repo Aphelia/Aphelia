@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.slf4j.LoggerFactory;
+import to.us.awesomest.aphelia.data.PrefixData;
 import to.us.awesomest.aphelia.module.command.*;
 
 import javax.annotation.Nullable;
@@ -14,6 +15,9 @@ public class ModuleManager {
     private static final Map<String, ModuleManager> managerMap = new HashMap<>();
     private String prefix = "!";
     private static ModuleManager DMInstance;
+    private String guildId;
+
+    @SuppressWarnings("FieldMayBeFinal") //adding new feature in future
     private Command[] enabledCommands = {
             new CheckComs(),
             new NewShortcut(),
@@ -27,8 +31,12 @@ public class ModuleManager {
             new ChangePrefix()};
 
     public static ModuleManager getInstanceByGuildId(String guildId) {
-        if(!managerMap.containsKey(guildId))
+        if (!managerMap.containsKey(guildId)) {
             managerMap.put(guildId, new ModuleManager());
+            managerMap.get(guildId).guildId = guildId;
+            String possiblePrefix = PrefixData.getInstanceByGuildId(guildId).getEntry("prefix");
+            if (possiblePrefix != null) managerMap.get(guildId).prefix = possiblePrefix;
+        }
         return managerMap.get(guildId);
     }
     public static ModuleManager getDMInstance() {
@@ -48,6 +56,7 @@ public class ModuleManager {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+        PrefixData.getInstanceByGuildId(guildId).setEntry("prefix", prefix);
     }
 
     public boolean runCommands(User user, MessageChannel channel, String command, @Nullable Guild guild) {
