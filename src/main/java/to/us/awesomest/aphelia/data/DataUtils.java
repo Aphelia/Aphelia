@@ -33,7 +33,7 @@ public final class DataUtils {
                 while (dataScanner.hasNextLine()) {
                     String data = dataScanner.nextLine();
                     output = json.fromJson(data, output.getClass());
-                    LoggerFactory.getLogger("DataUtils").debug("Wrote " + data + " for " + module);
+                    LoggerFactory.getLogger("DataUtils").debug("Read " + data + " for " + module);
                 }
                 dataScanner.close();
             } catch (FileNotFoundException e) {
