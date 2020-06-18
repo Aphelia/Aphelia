@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+@SuppressWarnings("unchecked")
 public final class DataUtils {
     static Gson json = new Gson();
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     static void writeFile(String guildId, String module, HashMap<String, String> mappedData ) {
         try {
             File guildDataDir = new File("GuildData/" + guildId + "/");
@@ -19,11 +22,13 @@ public final class DataUtils {
             FileWriter fileWriter;
             fileWriter = new FileWriter(new File("GuildData/" + guildId + "/" + module + ".json"));  //FileWriter throws IOException
             fileWriter.write(json.toJson(mappedData));
+            LoggerFactory.getLogger("DataUtils").debug("Wrote " + json.toJson(mappedData) + " for " + module);
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     static HashMap<String, String> readFile(String guildId, String module) {
         File dataFile = new File("GuildData/" + guildId + "/" + module + ".json");
         HashMap<String, String> output = new HashMap<>();
