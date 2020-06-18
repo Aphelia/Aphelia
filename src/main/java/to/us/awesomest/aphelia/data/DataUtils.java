@@ -56,7 +56,7 @@ public final class DataUtils {
             File guildDataDir = new File("GuildData/" + guildId + "/");
             guildDataDir.mkdirs();
             FileWriter fileWriter;
-            fileWriter = new FileWriter(new File("GuildData/" + guildId + "/" + module + ".json"));  //FileWriter throws IOException
+            fileWriter = new FileWriter(new File("GuildData/" + guildId + "/" + module + ".txt"));  //FileWriter throws IOException
             LoggerFactory.getLogger("DataUtils").debug("Attempting to write " + data + " for " + module);
             fileWriter.write(data);
             LoggerFactory.getLogger("DataUtils").debug("Wrote " + data + " for " + module);
@@ -67,7 +67,7 @@ public final class DataUtils {
     }
 
     static String readRaw(String guildId, String module) {
-        File dataFile = new File("GuildData/" + guildId + "/" + module + ".json");
+        File dataFile = new File("GuildData/" + guildId + "/" + module + ".txt");
         String data = null;
         if (dataFile.exists()) {
             try {
