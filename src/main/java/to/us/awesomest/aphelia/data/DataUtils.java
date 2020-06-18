@@ -49,4 +49,40 @@ public final class DataUtils {
         }
         return output;
     }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    static void writeRaw(String guildId, String module, String data) {
+        try {
+            File guildDataDir = new File("GuildData/" + guildId + "/");
+            guildDataDir.mkdirs();
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(new File("GuildData/" + guildId + "/" + module + ".json"));  //FileWriter throws IOException
+            LoggerFactory.getLogger("DataUtils").debug("Attempting to write " + data + " for " + module);
+            fileWriter.write(data);
+            LoggerFactory.getLogger("DataUtils").debug("Wrote " + data + " for " + module);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static String readRaw(String guildId, String module) {
+        File dataFile = new File("GuildData/" + guildId + "/" + module + ".json");
+        String data = null;
+        if (dataFile.exists()) {
+            try {
+                Scanner dataScanner = new Scanner(dataFile);
+                while (dataScanner.hasNextLine()) {
+                    data = dataScanner.nextLine();
+                    LoggerFactory.getLogger("DataUtils").debug("Read " + data + " for " + module);
+                }
+                dataScanner.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        }
+        return data;
+
+    }
 }
