@@ -21,6 +21,7 @@ public final class DataUtils {
             guildDataDir.mkdirs();
             FileWriter fileWriter;
             fileWriter = new FileWriter(new File("GuildData/" + guildId + "/" + module + ".json"));  //FileWriter throws IOException
+            LoggerFactory.getLogger("DataUtils").debug("Attempting to write " + mappedData + " for " + module);
             fileWriter.write(json.toJson(mappedData));
             LoggerFactory.getLogger("DataUtils").debug("Wrote " + json.toJson(mappedData) + " for " + module);
             fileWriter.close();
