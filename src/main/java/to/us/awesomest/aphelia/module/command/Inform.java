@@ -23,7 +23,7 @@ public class Inform implements Command {
     public void run(User author, MessageChannel channel, String args, Guild guild) {
         List<String> argsArray = new ArrayList<>(Arrays.asList(args.split(" ")));
         if (argsArray.size() < 2) {
-            channel.sendMessage("Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*>").queue();
+            channel.sendMessage("Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).").queue();
             return;
         }
         if (guild != null) {
@@ -34,10 +34,10 @@ public class Inform implements Command {
         }
         EmbedBuilder informBuilder = new EmbedBuilder();
         informBuilder.setColor(new Color(0, 22, 88));
-        informBuilder.setTitle(argsArray.remove(0));
-        informBuilder.setDescription(argsArray.remove(0));
+        informBuilder.setTitle(argsArray.remove(0).replace("_", " "));
+        informBuilder.setDescription(argsArray.remove(0).replace("_", " "));
         for (String arg : argsArray) {
-            informBuilder.addField(" ", arg, false);
+            informBuilder.addField(" ", arg.replace("_", " "), false);
         }
         informBuilder.addField(" ", "*Like this? [Invite me](https://aphelia.github.io/invite)!*", false);
         informBuilder.setFooter("Sent by " + author.getName(), author.getAvatarUrl());
