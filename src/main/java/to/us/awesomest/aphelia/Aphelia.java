@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class Aphelia {
     public static JDA bot;
-    final static private String version = "Version 0.11.2";
+    final static private String version = "Development 0.11.3";
 
     public static String getVersion() {
         return version;
