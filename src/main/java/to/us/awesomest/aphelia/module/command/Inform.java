@@ -51,6 +51,6 @@ public class Inform implements Command {
 
     @Override
     public String getDescription() {
-        return "Inform users in an embed-esque way.";
+        return "Inform users in an embedded way.";
     }
 }
