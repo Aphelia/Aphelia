@@ -6,7 +6,7 @@
 
     <groupId>to.us.awesomest</groupId>
     <artifactId>Aphelia</artifactId>
-    <version>0.11.2-CANARY</version>
+    <version>0.11.2-BETA</version>
     <build>
         <plugins>
             <plugin>
