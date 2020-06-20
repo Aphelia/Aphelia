@@ -19,6 +19,7 @@ public class CloseTicket implements Command {
             return;
         }
         ((TextChannel) channel).delete().queue();
+        TicketData.getInstanceByGuildId(guild.getId()).deleteEntry(channel.getId());
     }
 
     @Override
