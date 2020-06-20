@@ -15,6 +15,15 @@ public final class MessagingUtils {
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
+    public static void sendError(MessageChannel channel, String error) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setTitle("Error")
+                .setColor(new Color(255, 0, 0))
+                .addField(" ", error, false);
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
     public static void sendNoPermissions(MessageChannel channel, String permission) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder
@@ -23,6 +32,7 @@ public final class MessagingUtils {
                 .setDescription("You must have **" + permission + "**.");
         channel.sendMessage(embedBuilder.build()).queue();
     }
+
     public static void sendCompleted(MessageChannel channel) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder

@@ -27,6 +27,8 @@ public class ModuleManager {
             new Balance(),
             new GiveCoins(),
             new TakeCoins(),
+            new Ticket(),
+            new CloseTicket(),
             new Gamble(),
             new ChangePrefix(),
             new Inform()};
