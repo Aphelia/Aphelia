@@ -15,6 +15,15 @@ public final class MessagingUtils {
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
+    public static void sendError(MessageChannel channel, String error) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setTitle("Error")
+                .setColor(new Color(255, 0, 0))
+                .addField(" ", error, false);
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
     public static void sendNoPermissions(MessageChannel channel, String permission) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder
@@ -23,12 +32,21 @@ public final class MessagingUtils {
                 .setDescription("You must have **" + permission + "**.");
         channel.sendMessage(embedBuilder.build()).queue();
     }
+
     public static void sendCompleted(MessageChannel channel) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder
                 .setColor(new Color(0, 255, 0))
                 .setTitle("Task Completed!")
                 .setDescription("Thank you for using Aphelia.");
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
+    public static void sendInfo(MessageChannel channel, String text) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setColor(new Color(0, 22, 88))
+                .setDescription(text);
         channel.sendMessage(embedBuilder.build()).queue();
     }
 }

@@ -27,8 +27,11 @@ public class ModuleManager {
             new Balance(),
             new GiveCoins(),
             new TakeCoins(),
+            new Ticket(),
+            new CloseTicket(),
             new Gamble(),
-            new ChangePrefix()};
+            new ChangePrefix(),
+            new Inform()};
 
     public static ModuleManager getInstanceByGuildId(String guildId) {
         if (!managerMap.containsKey(guildId)) {
