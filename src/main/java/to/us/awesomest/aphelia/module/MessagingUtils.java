@@ -41,4 +41,12 @@ public final class MessagingUtils {
                 .setDescription("Thank you for using Aphelia.");
         channel.sendMessage(embedBuilder.build()).queue();
     }
+
+    public static void sendInfo(MessageChannel channel, String text) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setColor(new Color(0, 22, 88))
+                .setDescription(text);
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
 }

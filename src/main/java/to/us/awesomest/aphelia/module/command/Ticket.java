@@ -18,7 +18,13 @@ public class Ticket implements Command {
             MessagingUtils.sendError(channel, "You already have a ticket open!");
             return;
         }
-        TextChannel ticketChannel = guild.createTextChannel(author.getName() + "'s ticket").complete();
+        TextChannel ticketChannel;
+        if (guild.getTextChannelsByName("base-ticket", true).size() != 1) {
+            ticketChannel = guild.createTextChannel(author.getName() + "'s ticket").complete();
+            MessagingUtils.sendInfo(ticketChannel, "*There is no base ticket channel in this server! For more info, click [here](https://aphelia.github.io/tickethelp/).*");
+        } else {
+            ticketChannel = guild.createCopyOfChannel(guild.getTextChannelsByName("base-ticket", true).get(0)).setName(author.getName() + "'s ticket").complete();
+        }
         ticketChannel.sendMessage("*To close this ticket, do !close*").queue();
         TicketData.getInstanceByGuildId(guild.getId()).setEntry(ticketChannel.getId(), author.getId());
         MessagingUtils.sendCompleted(channel);
