@@ -4,4 +4,6 @@ target
 dependency-reduced-pom.xml
 GuildData
 .idea
+beta
 *.DS_Store
+/beta

@@ -17,11 +17,13 @@ import java.util.Scanner;
 
 public class Aphelia {
     public static JDA bot;
-    final static private String version = "Beta 0.11.3";
+    final static private String verNum = "0.11.3";
+    private static String version;
 
     public static String getVersion() {
         return version;
     }
+
     private static String getToken() throws FileNotFoundException {
         String token;
         File file = new File("token");
@@ -30,7 +32,19 @@ public class Aphelia {
         tokenScanner.close();
         return token;
     }
+
+    public static boolean isBeta() {
+        File file = new File("beta");
+        return file.exists();
+    }
+
     public static void main(String[] args) throws LoginException {
+        if (isBeta()) {
+            version = "Beta " + verNum;
+        } else {
+            version = "Release " + verNum;
+        }
+
         String token = null;
         try {
             token = getToken();
