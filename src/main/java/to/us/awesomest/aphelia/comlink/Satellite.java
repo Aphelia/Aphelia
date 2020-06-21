@@ -15,22 +15,51 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+@SuppressWarnings({"InfiniteLoopStatement", "SpellCheckingInspection"})
+
 public class Satellite extends Thread {
-    private static HashMap<String, DataOutputStream> outputSocketMap = new HashMap<>();
+    private static final HashMap<String, DataOutputStream> outputSocketMap = new HashMap<>();
     static Gson json = new Gson();
     private static Satellite instance;
 
-    private Satellite(){}
+    private Satellite() {
+    }
 
     public static Satellite getInstance() {
-        if(instance == null) instance = new Satellite();
+        if (instance == null) instance = new Satellite();
         return instance;
+    }
+
+    private static String generateToken(@SuppressWarnings("SameParameterValue") int length) {
+
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz"
+                + "!#$%()*+,-./";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index = (int) (AlphaNumericString.length() * Math.random());
+            // add Character one by one in end of stringBuilder
+            stringBuilder.append(AlphaNumericString.charAt(index));
+        }
+        return stringBuilder.toString();
     }
 
     public void run() {
         System.out.println("Started socket!");
         try {
-            ServerSocket serverSocket = new ServerSocket(2565);
+            ServerSocket serverSocket;
+            if (Aphelia.isBeta()) {
+                serverSocket = new ServerSocket(2564);
+            } else {
+                serverSocket = new ServerSocket(2565);
+            }
             while (true) {
                 try {
                     new ClientHandler(serverSocket.accept()).start();
@@ -38,17 +67,37 @@ public class Satellite extends Thread {
                     e.printStackTrace();
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(IOException e) {
+    }
+
+    public static boolean hasOutputStream(String channelId) {
+        return outputSocketMap.containsKey(channelId);
+    }
+
+    public static void passChatMessage(String channelId, String username, String message) {
+        if (!outputSocketMap.containsKey(channelId))
+            throw new NullPointerException("No socket for that channel found!");
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("type", "CHAT");
+        dataMap.put("content", message);
+        dataMap.put("user", username);
+        try {
+            outputSocketMap.get(channelId).writeUTF(json.toJson(dataMap));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static class ClientHandler extends Thread {
-        private Socket clientSocket;
+        private final Socket clientSocket;
+
         public ClientHandler(Socket socket) {
             this.clientSocket = socket;
         }
+
+        @SuppressWarnings({"ConstantConditions", "unchecked"})
         public void run() {
             try {
                 while (true) {
@@ -87,11 +136,11 @@ public class Satellite extends Thread {
                     }
                     processByType(associatedChannel, data);
                 }
-            }
-            catch(IOException e) {
+            } catch(IOException e) {
                 e.printStackTrace();
             }
         }
+
         private static void processByType(TextChannel discordChannel, HashMap<String, String> data) {
             switch(data.get("type")) {
                 case "CHAT":
@@ -125,42 +174,5 @@ public class Satellite extends Thread {
                     break;
             }
         }
-    }
-    public static boolean hasOutputStream(String channelId) {
-        return outputSocketMap.containsKey(channelId);
-    }
-    public static void passChatMessage(String channelId, String username, String message) {
-        if(!outputSocketMap.containsKey(channelId)) throw new NullPointerException("No socket for that channel found!");
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("type", "CHAT");
-        dataMap.put("content", message);
-        dataMap.put("user", username);
-        try {
-            outputSocketMap.get(channelId).writeUTF(json.toJson(dataMap));
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    private static String generateToken(int length) {
-
-        // chose a Character random from this String
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz"
-                + "!#$%()*+,-./";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder stringBuilder = new StringBuilder(length);
-
-        for (int i = 0; i < length; i++) {
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index = (int)(AlphaNumericString.length() * Math.random());
-            // add Character one by one in end of stringBuilder
-            stringBuilder.append(AlphaNumericString.charAt(index));
-        }
-        return stringBuilder.toString();
     }
 }
