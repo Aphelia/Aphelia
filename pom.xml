@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>to.us.awesomest</groupId>
-    <artifactId>MyBit</artifactId>
-    <version>0.10-RELEASE</version>
+    <artifactId>Aphelia</artifactId>
+    <version>0.11.3</version>
     <build>
         <plugins>
             <plugin>
@@ -16,7 +16,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>to.us.awesomest.mybit.MyBit</mainClass>
+                            <mainClass>to.us.awesomest.aphelia.Aphelia</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.1.1_160</version>
+            <version>4.1.1_165</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
