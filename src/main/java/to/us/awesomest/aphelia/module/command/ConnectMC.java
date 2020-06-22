@@ -21,11 +21,11 @@ public class ConnectMC implements Command {
 
     @Override
     public void run(User author, MessageChannel channel, String args, @NotNull Guild guild) {
-        if(channel.getType().isGuild() && !Objects.requireNonNull(guild.getMember(author)).hasPermission(Permission.MANAGE_SERVER)) {
+        if (channel.getType().isGuild() && !Objects.requireNonNull(guild.getMember(author)).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
             return;
         }
-        if(!args.trim().contains(" ")) {
+        if (!args.trim().isEmpty()) {
             EmbedBuilder commandListBuilder = new EmbedBuilder();
             commandListBuilder
                     .setColor(new Color(255, 0, 0))
