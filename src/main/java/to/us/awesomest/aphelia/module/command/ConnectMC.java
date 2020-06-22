@@ -25,7 +25,7 @@ public class ConnectMC implements Command {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
             return;
         }
-        if (!args.trim().isEmpty()) {
+        if (args.trim().isEmpty()) {
             EmbedBuilder commandListBuilder = new EmbedBuilder();
             commandListBuilder
                     .setColor(new Color(255, 0, 0))
