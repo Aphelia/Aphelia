@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 final class CommandUtils {
-    static String[] parseArgs(String argString) {
-        return argString.split(" ");
-    }
     static Member parseUser(Guild guild, String string) {
         if(string.matches("^<@!(\\d+)>$")) {
             String userId = string.substring(3, string.length() - 1);
