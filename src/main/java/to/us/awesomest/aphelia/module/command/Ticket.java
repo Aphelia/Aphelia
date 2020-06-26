@@ -24,10 +24,26 @@ public class Ticket implements Command {
         EnumSet<Permission> read = EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
         TextChannel ticketChannel;
         if (guild.getTextChannelsByName("base-ticket", true).size() != 1) {
-            ticketChannel = guild
-                    .createTextChannel(author.getName() + "'s ticket")
-                    .addMemberPermissionOverride(author.getIdLong(), read, null)
-                    .complete();
+            if(guild.getRolesByName("Support", true).size() > 0) {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getRolesByName("Support", true).get(0).getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getPublicRole().getIdLong(), null, read)
+                        .complete();
+            } else if(guild.getRolesByName("Staff", true).size() > 0) {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getRolesByName("Staff", true).get(0).getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getPublicRole().getIdLong(), null, read)
+                        .complete();
+            } else {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .complete();
+            }
             MessagingUtils.sendInfo(ticketChannel, "*There is no base ticket channel in this server! For more info, click [here](https://aphelia.github.io/tickethelp/).*");
         } else {
             ticketChannel = guild.createCopyOfChannel(guild.getTextChannelsByName("base-ticket", true).get(0))

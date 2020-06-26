@@ -20,6 +20,7 @@ public class MCChannelHandler implements ChatHandler {
         return false;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void run(User author, MessageChannel channel, String message, @NotNull Guild guild) {
         if(!Satellite.hasOutputStream(channel.getId())) {
