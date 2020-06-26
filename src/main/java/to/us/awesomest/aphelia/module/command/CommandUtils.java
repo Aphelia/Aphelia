@@ -1,6 +1,5 @@
 package to.us.awesomest.aphelia.module.command;
 
-import com.sun.tools.internal.ws.wsdl.framework.NoSuchEntityException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import org.slf4j.LoggerFactory;
