@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import to.us.awesomest.aphelia.comlink.Satellite;
 import to.us.awesomest.aphelia.listeners.ChatListener;
 
@@ -17,7 +18,7 @@ import java.util.Scanner;
 
 public class Aphelia {
     public static JDA bot;
-    final static private String verNum = "0.11.3";
+    final static private String verNum = "0.12.1";
     private static String version;
 
     public static String getVersion() {
@@ -55,9 +56,11 @@ public class Aphelia {
         Collection<GatewayIntent> intents = new ArrayList<>();
         intents.add(GatewayIntent.GUILD_MESSAGES);
         intents.add(GatewayIntent.DIRECT_MESSAGES);
+        intents.add(GatewayIntent.GUILD_MEMBERS);
         bot = JDABuilder.create(token, intents)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new ChatListener())
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .build();
         bot.getPresence().setActivity(Activity.playing("!help | " + getVersion()));
         System.out.println("Started Bot!");

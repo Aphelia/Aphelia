@@ -7,3 +7,4 @@ GuildData
 beta
 *.DS_Store
 /beta
+/src/main/java/to/us/awesomest/aphelia/module/command/CanaryCommand.java

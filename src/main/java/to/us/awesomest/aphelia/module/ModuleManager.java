@@ -23,6 +23,7 @@ public class ModuleManager {
             new NewShortcut(),
             new DelShortcut(),
             new Help(),
+            new Pay(),
             new ConnectMC(),
             new Balance(),
             new GiveCoins(),

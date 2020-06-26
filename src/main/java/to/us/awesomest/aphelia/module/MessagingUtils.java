@@ -42,6 +42,15 @@ public final class MessagingUtils {
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
+    public static void sendCompleted(MessageChannel channel, String text) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setColor(new Color(0, 255, 0))
+                .setTitle("Task Completed!")
+                .setDescription(text);
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
     public static void sendInfo(MessageChannel channel, String text) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder
