@@ -26,7 +26,7 @@ public class MCChannelHandler implements ChatHandler {
             LoggerFactory.getLogger("MCChannelHandler").debug("Skipped message \"" + message + "\" as no matching client was found.");
             return;
         }
-        Satellite.passChatMessage(channel.getId(), author.getName(), message);
+        Satellite.passChatMessage(channel.getId(), guild.getMember(author).getEffectiveName(), message);
         LoggerFactory.getLogger("MCChannelHandler").debug("Sent message \"" + message + "\" to Satellite.");
     }
 
