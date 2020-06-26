@@ -8,6 +8,7 @@ import java.util.List;
 
 final class CommandUtils {
     static Member parseUser(Guild guild, String string) {
+        string = string.trim();
         if(string.matches("^<@!(\\d+)>$")) {
             String userId = string.substring(3, string.length() - 1);
             LoggerFactory.getLogger("CommandUtils").debug("Got userID " + userId);
