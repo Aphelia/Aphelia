@@ -33,7 +33,7 @@ public class CoinData implements GuildDataHandler {
 
     @Override
     public String getEntry(String userId) {
-        if(!userCoinMap.containsKey(userId)) setEntry(userId, "0");
+        if(!userCoinMap.containsKey(userId)) setEntry(userId, "100");
         return userCoinMap.get(userId);
     }
 
