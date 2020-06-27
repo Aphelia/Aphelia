@@ -38,6 +38,10 @@ public class Pay implements Command {
             MessagingUtils.sendError(channel, "That's not a valid amount to pay.");
             return;
         }
+        if(coins < 0) {
+            MessagingUtils.sendError(channel, "You can't pay a negative amount!");
+            return;
+        }
         LoggerFactory.getLogger("Transactions").debug("User: " + payee);
         LoggerFactory.getLogger("Transactions").debug(String.valueOf(guild.getMemberByTag("BlockVerse#7009")));
         CoinData dataInstance = CoinData.getInstanceByGuildId(guild.getId());
