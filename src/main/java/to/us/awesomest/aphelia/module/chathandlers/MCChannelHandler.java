@@ -20,13 +20,14 @@ public class MCChannelHandler implements ChatHandler {
         return false;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void run(User author, MessageChannel channel, String message, @NotNull Guild guild) {
         if(!Satellite.hasOutputStream(channel.getId())) {
             LoggerFactory.getLogger("MCChannelHandler").debug("Skipped message \"" + message + "\" as no matching client was found.");
             return;
         }
-        Satellite.passChatMessage(channel.getId(), author.getName(), message);
+        Satellite.passChatMessage(channel.getId(), guild.getMember(author).getEffectiveName(), message);
         LoggerFactory.getLogger("MCChannelHandler").debug("Sent message \"" + message + "\" to Satellite.");
     }
 

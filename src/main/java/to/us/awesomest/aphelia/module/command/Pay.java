@@ -26,7 +26,7 @@ public class Pay implements Command {
         try {
             payee = CommandUtils.parseUser(guild, argsArray[0]);
         } catch(IllegalArgumentException e) {
-            MessagingUtils.sendError(channel, "Failed to find user" + argsArray[0]);
+            MessagingUtils.sendError(channel, "Failed to find user " + argsArray[0]);
             return;
         }
         String amount = argsArray[1];
@@ -35,7 +35,7 @@ public class Pay implements Command {
         try {
             coins = Integer.parseInt(amount);
         } catch (NumberFormatException e) {
-            MessagingUtils.sendError(channel, "That's not a valid amount to pay..");
+            MessagingUtils.sendError(channel, "That's not a valid amount to pay.");
             return;
         }
         LoggerFactory.getLogger("Transactions").debug("User: " + payee);

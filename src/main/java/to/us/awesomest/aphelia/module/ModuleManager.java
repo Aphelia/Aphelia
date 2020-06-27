@@ -30,6 +30,7 @@ public class ModuleManager {
             new TakeCoins(),
             new Ticket(),
             new CloseTicket(),
+            new Suggest(),
             new Gamble(),
             new ChangePrefix(),
             new Inform()};
