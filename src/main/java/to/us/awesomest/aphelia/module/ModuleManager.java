@@ -17,8 +17,7 @@ public class ModuleManager {
     private static ModuleManager DMInstance;
     private String guildId;
 
-    @SuppressWarnings("FieldMayBeFinal") //adding new feature in future
-    private Command[] enabledCommands = {
+    private final Command[] enabledCommands = {
             new CheckComs(),
             new NewShortcut(),
             new DelShortcut(),
@@ -67,14 +66,20 @@ public class ModuleManager {
     public boolean runCommands(User user, MessageChannel channel, String command, @Nullable Guild guild) {
         String commandName;
         LoggerFactory.getLogger("ModuleManager").info("Received text " + command);
-        if(command.contains(" ")) {commandName = command.split(" ")[0];}
-        else {commandName = command;}
-        for (Command commandClass:enabledCommands) {
-            if(!commandName.equalsIgnoreCase(prefix + commandClass.getName())) {
+        while (command.contains("  ")) {
+            command = command.replace("  ", " ");
+        }
+        if (command.contains(" ")) {
+            commandName = command.split(" ")[0];
+        } else {
+            commandName = command;
+        }
+        for (Command commandClass : enabledCommands) {
+            if (!commandName.equalsIgnoreCase(prefix + commandClass.getName())) {
                 LoggerFactory.getLogger("ModuleManager").debug(prefix + commandClass.getName() + " is not equal to " + commandName + ", skipping.");
                 continue;
             }
-            if(!commandClass.isDMUsable() && guild == null) {
+            if (!commandClass.isDMUsable() && guild == null) {
                 channel.sendMessage("Error encountered: This command cannot be used in a DM.").queue();
                 LoggerFactory.getLogger("ModuleManager").debug("Rejected request to use " + command + " while not in a guild!");
                 return false;
