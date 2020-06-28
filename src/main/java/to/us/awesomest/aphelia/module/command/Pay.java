@@ -21,7 +21,7 @@ public class Pay implements Command {
             MessagingUtils.sendError(channel, "Usage: !pay <user> <amount>");
             return;
         }
-        String[] argsArray = args.split(" ");
+        String[] argsArray = {args.substring(0, args.lastIndexOf(" ")), args.substring(args.lastIndexOf(" ") + 1)};
         Member payee;
         try {
             payee = CommandUtils.parseUser(guild, argsArray[0]);
