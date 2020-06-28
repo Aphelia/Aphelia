@@ -10,6 +10,7 @@ import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
 
+@SuppressWarnings("ConstantConditions")
 public class TakeCoins implements Command {
     @Override
     public boolean isDMUsable() {
@@ -23,7 +24,7 @@ public class TakeCoins implements Command {
             return;
         }
         try {
-            String bal = String.valueOf(Integer.valueOf(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) - Integer.valueOf(args));
+            String bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) - Integer.parseInt(args));
             CoinData.getInstanceByGuildId(guild.getId()).setEntry(author.getId(), bal);
             EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
             balanceInfoBuilder
@@ -31,8 +32,7 @@ public class TakeCoins implements Command {
                     .setColor(new Color(127, 255, 0))
                     .addField("Your balance:", bal, false);
             channel.sendMessage(balanceInfoBuilder.build()).queue();
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             MessagingUtils.sendError(channel);
         }
     }
