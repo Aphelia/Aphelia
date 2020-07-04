@@ -27,7 +27,7 @@ public class Gamble implements Command {
                 feedbackBuilder
                         .setTitle("Not enough money!")
                         .setColor(new Color(0, 255, 0))
-                        .addField(" ", "You can't gamble more than you're worth!", false);
+                        .setDescription("You can't gamble more than you're worth!");
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return;
             }
@@ -36,7 +36,7 @@ public class Gamble implements Command {
                 feedbackBuilder
                         .setTitle("Positives only.")
                         .setColor(new Color(0, 255, 0))
-                        .addField(" ", "Don't be so negative. Or worthless.", false);
+                        .setDescription("Don't be so negative. Or worthless.");
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return;
             }
