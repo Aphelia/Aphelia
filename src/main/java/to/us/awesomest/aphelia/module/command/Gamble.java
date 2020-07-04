@@ -22,7 +22,7 @@ public class Gamble implements Command {
         String bal;
 
         try {
-            if(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) < Integer.parseInt(args)) {
+            if (Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) < Integer.parseInt(args)) {
                 EmbedBuilder feedbackBuilder = new EmbedBuilder();
                 feedbackBuilder
                         .setTitle("Not enough money!")
@@ -31,7 +31,7 @@ public class Gamble implements Command {
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return;
             }
-            if(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) <= 0) {
+            if (Integer.parseInt(args) <= 0) {
                 EmbedBuilder feedbackBuilder = new EmbedBuilder();
                 feedbackBuilder
                         .setTitle("Positives only.")
@@ -40,7 +40,7 @@ public class Gamble implements Command {
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return;
             }
-            if(random.nextBoolean()) {
+            if (random.nextBoolean()) {
                 bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) + Integer.parseInt(args));
                 EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
                 balanceInfoBuilder
