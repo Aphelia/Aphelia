@@ -1,5 +1,6 @@
 package to.us.awesomest.aphelia.module.command;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -12,8 +13,17 @@ public class ChangePrefix implements Command {
         return false;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void run(User author, MessageChannel channel, String args, Guild guild) {
+        if (!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
+            MessagingUtils.sendNoPermissions(channel, "Manage Server");
+            return;
+        }
+        if (args == null || args.trim().isEmpty()) {
+            MessagingUtils.sendError(channel);
+            return;
+        }
         ModuleManager.getInstanceByGuildId(guild.getId()).setPrefix(args);
         MessagingUtils.sendCompleted(channel);
     }

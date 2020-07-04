@@ -86,11 +86,15 @@ public class ModuleManager {
             }
             LoggerFactory.getLogger("ModuleManager").debug("Sent " + command + " to " + commandClass.getName());
             String args;
+
             try {
-               args = command.substring(command.indexOf(" ") + 1);
-            }
-            catch(StringIndexOutOfBoundsException e) {
+                args = command.substring(command.indexOf(" ") + 1);
+            } catch (StringIndexOutOfBoundsException e) {
                 args = null;
+            }
+
+            if (!command.contains(" ")) {
+                args = null; //otherwise, args would be the entire command, for some reason.
             }
             commandClass.run(user, channel, args, guild);
             return true;

@@ -17,7 +17,7 @@ public class Pay implements Command {
 
     @Override
     public void run(User author, MessageChannel channel, String args, Guild guild) {
-        if (!args.contains(" ")) {
+        if (args == null || !args.contains(" ")) {
             MessagingUtils.sendError(channel, "Usage: !pay <user> <amount>");
             return;
         }
