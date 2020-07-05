@@ -76,7 +76,6 @@ public class ModuleManager {
         }
         for (Command commandClass : enabledCommands) {
             if (!commandName.equalsIgnoreCase(prefix + commandClass.getName())) {
-                LoggerFactory.getLogger("ModuleManager").debug(prefix + commandClass.getName() + " is not equal to " + commandName + ", skipping.");
                 continue;
             }
             if (!commandClass.isDMUsable() && guild == null) {
