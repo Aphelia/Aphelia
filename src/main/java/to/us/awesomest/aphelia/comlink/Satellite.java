@@ -13,11 +13,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.SecureRandom;
 import java.util.HashMap;
 
 @SuppressWarnings({"InfiniteLoopStatement", "SpellCheckingInspection"})
 
 public class Satellite extends Thread {
+    static SecureRandom random = new SecureRandom();
+    byte[] seed;
+
     private static final HashMap<String, DataOutputStream> outputSocketMap = new HashMap<>();
     static Gson json = new Gson();
     private static Satellite instance;
@@ -26,7 +30,10 @@ public class Satellite extends Thread {
     }
 
     public static Satellite getInstance() {
-        if (instance == null) instance = new Satellite();
+        if (instance == null) {
+            instance = new Satellite();
+            instance.seed = random.generateSeed(4);
+        }
         return instance;
     }
 
@@ -42,9 +49,7 @@ public class Satellite extends Thread {
         StringBuilder stringBuilder = new StringBuilder(length);
 
         for (int i = 0; i < length; i++) {
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index = (int) (AlphaNumericString.length() * Math.random());
+            int index = (int) (AlphaNumericString.length() * random.nextDouble());
             // add Character one by one in end of stringBuilder
             stringBuilder.append(AlphaNumericString.charAt(index));
         }
@@ -97,50 +102,6 @@ public class Satellite extends Thread {
             this.clientSocket = socket;
         }
 
-        @SuppressWarnings({"ConstantConditions", "unchecked"})
-        public void run() {
-            try {
-                while (true) {
-                    DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
-                    DataOutputStream outputStream = new DataOutputStream(clientSocket.getOutputStream());
-                    String str = inputStream.readUTF();
-                    LoggerFactory.getLogger("Satellite").debug(str);
-                    HashMap<String, String> data = json.fromJson(str, HashMap.class);
-                    if (data.get("type").equals("TOKENREQUEST")) {
-                        HashMap<String, String> responseMap = new HashMap<>();
-                        responseMap.put("response", generateToken(64));
-                        outputStream.writeUTF(json.toJson(responseMap));
-                        LoggerFactory.getLogger("Tokens").info("Granted request for a token!");
-                        continue;
-                    }
-
-                    //TODO: Allow for PMs to work as well.
-                    LoggerFactory.getLogger("Satellite").debug("Channel:" + MCData.getInstance().getEntry(data.get("token")));
-                    if (!MCData.getInstance().hasEntry(data.get("token"))) {
-                        LoggerFactory.getLogger("Satellite").debug("Found invalid token, rejecting.");
-                        continue;
-                    }
-
-                    if (data.get("type").equals("HEARTBEAT")) {
-                        TextChannel associatedChannel = (TextChannel) Aphelia.bot.getGuildChannelById(MCData.getInstance().getEntry(data.get("token")));
-                        outputSocketMap.put(associatedChannel.getId(), outputStream);
-                        LoggerFactory.getLogger("Satellite").debug("Received heartbeat message");
-                        continue;
-                    }
-
-                    TextChannel associatedChannel = (TextChannel) Aphelia.bot.getGuildChannelById(MCData.getInstance().getEntry(data.get("token")));
-                    outputSocketMap.put(associatedChannel.getId(), outputStream);
-                    if (associatedChannel == null) {
-                        System.out.println("Received message with invalid token!");
-                        continue;
-                    }
-                    processByType(associatedChannel, data);
-                }
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         private static void processByType(TextChannel discordChannel, HashMap<String, String> data) {
             switch(data.get("type")) {
                 case "CHAT":
@@ -172,6 +133,67 @@ public class Satellite extends Thread {
                             .setDescription(data.get("user") + " died.");
                     discordChannel.sendMessage(deathMessageBuilder.build()).queue();
                     break;
+                case "DISCONNECT":
+                    EmbedBuilder disconnectMessageBuilder = new EmbedBuilder();
+                    disconnectMessageBuilder
+                            .setColor(new Color(0, 0, 0))
+                            .setTitle("Server Death")
+                            .setDescription("The Minecraft server has died.");
+                    discordChannel.sendMessage(disconnectMessageBuilder.build()).queue();
+                    discordChannel.getManager().setTopic("Server dead | Hermes by Aphelia").queue();
+                    break;
+                case "CONNECT":
+                    EmbedBuilder connectMessageBuilder = new EmbedBuilder();
+                    connectMessageBuilder
+                            .setColor(new Color(255, 255, 255))
+                            .setTitle("Server Connected")
+                            .setDescription("The Minecraft server has connected to Aphelia.");
+                    discordChannel.sendMessage(connectMessageBuilder.build()).queue();
+                    discordChannel.getManager().setTopic("Server online | Hermes by Aphelia").queue();
+                    break;
+            }
+        }
+
+        @SuppressWarnings({"ConstantConditions", "unchecked"})
+        public void run() {
+            try {
+                while (true) {
+                    DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
+                    DataOutputStream outputStream = new DataOutputStream(clientSocket.getOutputStream());
+                    String str = inputStream.readUTF();
+                    LoggerFactory.getLogger("Satellite").debug(str);
+                    HashMap<String, String> data = json.fromJson(str, HashMap.class);
+                    if (data.get("type").equals("TOKENREQUEST")) {
+                        HashMap<String, String> responseMap = new HashMap<>();
+                        responseMap.put("response", generateToken(64));
+                        outputStream.writeUTF(json.toJson(responseMap));
+                        LoggerFactory.getLogger("Tokens").info("Granted request for a token!");
+                        continue;
+                    }
+
+                    LoggerFactory.getLogger("Satellite").debug("Channel:" + MCData.getInstance().getEntry(data.get("token")));
+                    if (!MCData.getInstance().hasEntry(data.get("token"))) {
+                        LoggerFactory.getLogger("Satellite").debug("Found invalid token, rejecting.");
+                        continue;
+                    }
+
+                    if (data.get("type").equals("HEARTBEAT")) {
+                        TextChannel associatedChannel = (TextChannel) Aphelia.bot.getGuildChannelById(MCData.getInstance().getEntry(data.get("token")));
+                        outputSocketMap.put(associatedChannel.getId(), outputStream);
+                        LoggerFactory.getLogger("Satellite").debug("Received heartbeat message");
+                        continue;
+                    }
+
+                    TextChannel associatedChannel = (TextChannel) Aphelia.bot.getGuildChannelById(MCData.getInstance().getEntry(data.get("token")));
+                    outputSocketMap.put(associatedChannel.getId(), outputStream);
+                    if (associatedChannel == null) {
+                        System.out.println("Received message with invalid token!");
+                        continue;
+                    }
+                    processByType(associatedChannel, data);
+                }
+            } catch (IOException ignored) {
+                //probably just some client disconnecting
             }
         }
     }
