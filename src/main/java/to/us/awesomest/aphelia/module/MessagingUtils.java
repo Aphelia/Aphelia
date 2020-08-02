@@ -11,7 +11,7 @@ public final class MessagingUtils {
         embedBuilder
                 .setTitle("Error")
                 .setColor(new Color(255, 0, 0))
-                .addField(" ", "An error occurred. Did you specify the right arguments?", false);
+                .setDescription("An error occurred. Did you specify the right arguments?");
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
@@ -20,7 +20,7 @@ public final class MessagingUtils {
         embedBuilder
                 .setTitle("Error")
                 .setColor(new Color(255, 0, 0))
-                .addField(" ", error, false);
+                .setDescription(error);
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
@@ -39,6 +39,15 @@ public final class MessagingUtils {
                 .setColor(new Color(0, 255, 0))
                 .setTitle("Task Completed!")
                 .setDescription("Thank you for using Aphelia.");
+        channel.sendMessage(embedBuilder.build()).queue();
+    }
+
+    public static void sendCompleted(MessageChannel channel, String text) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder
+                .setColor(new Color(0, 255, 0))
+                .setTitle("Task Completed!")
+                .setDescription(text);
         channel.sendMessage(embedBuilder.build()).queue();
     }
 

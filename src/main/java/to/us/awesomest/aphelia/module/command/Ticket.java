@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.data.TicketData;
 import to.us.awesomest.aphelia.module.MessagingUtils;
+import to.us.awesomest.aphelia.module.ModuleManager;
 
 import java.util.EnumSet;
 
@@ -24,10 +25,26 @@ public class Ticket implements Command {
         EnumSet<Permission> read = EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
         TextChannel ticketChannel;
         if (guild.getTextChannelsByName("base-ticket", true).size() != 1) {
-            ticketChannel = guild
-                    .createTextChannel(author.getName() + "'s ticket")
-                    .addMemberPermissionOverride(author.getIdLong(), read, null)
-                    .complete();
+            if(guild.getRolesByName("Support", true).size() > 0) {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getRolesByName("Support", true).get(0).getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getPublicRole().getIdLong(), null, read)
+                        .complete();
+            } else if(guild.getRolesByName("Staff", true).size() > 0) {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getRolesByName("Staff", true).get(0).getIdLong(), read, null)
+                        .addRolePermissionOverride(guild.getPublicRole().getIdLong(), null, read)
+                        .complete();
+            } else {
+                ticketChannel = guild
+                        .createTextChannel(author.getName() + "'s ticket")
+                        .addMemberPermissionOverride(author.getIdLong(), read, null)
+                        .complete();
+            }
             MessagingUtils.sendInfo(ticketChannel, "*There is no base ticket channel in this server! For more info, click [here](https://aphelia.github.io/tickethelp/).*");
         } else {
             ticketChannel = guild.createCopyOfChannel(guild.getTextChannelsByName("base-ticket", true).get(0))
@@ -35,7 +52,7 @@ public class Ticket implements Command {
                     .addMemberPermissionOverride(author.getIdLong(), read, null)
                     .complete();
         }
-        ticketChannel.sendMessage("*To close this ticket, do !close*").queue();
+        ticketChannel.sendMessage("*To close this ticket, do " + ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + "close*").queue();
         TicketData.getInstanceByGuildId(guild.getId()).setEntry(ticketChannel.getId(), author.getId());
         MessagingUtils.sendCompleted(channel);
     }

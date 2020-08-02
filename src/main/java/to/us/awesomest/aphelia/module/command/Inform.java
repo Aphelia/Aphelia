@@ -21,9 +21,13 @@ public class Inform implements Command {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void run(User author, MessageChannel channel, String args, Guild guild) {
+        if (args == null) {
+            MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
+            return;
+        }
         List<String> argsArray = new ArrayList<>(Arrays.asList(args.split(" ")));
         if (argsArray.size() < 2) {
-            channel.sendMessage("Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).").queue();
+            MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
             return;
         }
         if (guild != null) {
