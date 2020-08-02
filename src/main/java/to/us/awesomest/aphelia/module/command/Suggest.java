@@ -22,11 +22,11 @@ public class Suggest implements Command {
     public void run(User author, MessageChannel channel, String args, @NotNull Guild guild) {
         EnumSet<Permission> deny = EnumSet.of(Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE);
         List<TextChannel> suggestionChannels = guild.getTextChannelsByName("suggestions", true);
-        if(suggestionChannels.size() < 1) {
+        if (suggestionChannels.size() < 1) {
             MessagingUtils.sendError(channel, "There is no channel called #suggestions! Please create one.");
             return;
         }
-        if(args.trim().isEmpty()) {
+        if (args == null || args.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "You must supply a suggestion! Usage: !suggest [name]");
             return;
         }

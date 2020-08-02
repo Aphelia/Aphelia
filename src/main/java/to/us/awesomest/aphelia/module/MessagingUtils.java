@@ -11,7 +11,7 @@ public final class MessagingUtils {
         embedBuilder
                 .setTitle("Error")
                 .setColor(new Color(255, 0, 0))
-                .addField(" ", "An error occurred. Did you specify the right arguments?", false);
+                .setDescription("An error occurred. Did you specify the right arguments?");
         channel.sendMessage(embedBuilder.build()).queue();
     }
 
@@ -20,7 +20,7 @@ public final class MessagingUtils {
         embedBuilder
                 .setTitle("Error")
                 .setColor(new Color(255, 0, 0))
-                .addField(" ", error, false);
+                .setDescription(error);
         channel.sendMessage(embedBuilder.build()).queue();
     }
 

@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.data.TicketData;
 import to.us.awesomest.aphelia.module.MessagingUtils;
+import to.us.awesomest.aphelia.module.ModuleManager;
 
 import java.util.EnumSet;
 
@@ -51,7 +52,7 @@ public class Ticket implements Command {
                     .addMemberPermissionOverride(author.getIdLong(), read, null)
                     .complete();
         }
-        ticketChannel.sendMessage("*To close this ticket, do !close*").queue();
+        ticketChannel.sendMessage("*To close this ticket, do " + ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + "close*").queue();
         TicketData.getInstanceByGuildId(guild.getId()).setEntry(ticketChannel.getId(), author.getId());
         MessagingUtils.sendCompleted(channel);
     }

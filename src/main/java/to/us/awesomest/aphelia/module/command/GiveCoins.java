@@ -18,22 +18,37 @@ public class GiveCoins implements Command {
 
     @Override
     public void run(User author, MessageChannel channel, String args, Guild guild) {
+        //noinspection ConstantConditions
         if(!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
             return;
         }
         try {
-            String bal = String.valueOf(Integer.valueOf(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) + Integer.valueOf(args));
-            CoinData.getInstanceByGuildId(guild.getId()).setEntry(author.getId(), bal);
+            String targetId = author.getId();
+            int amount;
+            if (args.contains(" ")) { //check if there's more than 1 argument.
+                try {
+                    targetId = CommandUtils.parseUser(guild, args.split(" ")[0]).getId();
+                    amount = Integer.parseInt(args.split(" ")[1]);
+                } catch (IllegalArgumentException e) {
+                    MessagingUtils.sendError(channel, "That formatting seems to be wrong. Check that the user exists and the amount is a valid integer.");
+                    return;
+                }
+            } else {
+                amount = Integer.parseInt(args);
+            }
+            String bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(targetId)) + amount);
+            CoinData.getInstanceByGuildId(guild.getId()).setEntry(targetId, bal);
             EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
             balanceInfoBuilder
                     .setTitle("Balance")
                     .setColor(new Color(127, 255, 0))
-                    .addField("Your balance:", bal, false);
+                    .setDescription(bal);
             channel.sendMessage(balanceInfoBuilder.build()).queue();
         }
         catch(Exception e) {
-            MessagingUtils.sendError(channel);
+            e.printStackTrace();
+            MessagingUtils.sendError(channel, "Usage: !giveCoins [user] <amount>");
         }
 
     }

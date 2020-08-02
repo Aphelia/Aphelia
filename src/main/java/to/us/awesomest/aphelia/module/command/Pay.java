@@ -17,11 +17,11 @@ public class Pay implements Command {
 
     @Override
     public void run(User author, MessageChannel channel, String args, Guild guild) {
-        if (!args.contains(" ")) {
+        if (args == null || !args.contains(" ")) {
             MessagingUtils.sendError(channel, "Usage: !pay <user> <amount>");
             return;
         }
-        String[] argsArray = args.split(" ");
+        String[] argsArray = {args.substring(0, args.lastIndexOf(" ")), args.substring(args.lastIndexOf(" ") + 1)};
         Member payee;
         try {
             payee = CommandUtils.parseUser(guild, argsArray[0]);
@@ -36,6 +36,10 @@ public class Pay implements Command {
             coins = Integer.parseInt(amount);
         } catch (NumberFormatException e) {
             MessagingUtils.sendError(channel, "That's not a valid amount to pay.");
+            return;
+        }
+        if(coins < 0) {
+            MessagingUtils.sendError(channel, "You can't pay a negative amount!");
             return;
         }
         LoggerFactory.getLogger("Transactions").debug("User: " + payee);
