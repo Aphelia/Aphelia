@@ -1,6 +1,7 @@
 package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
@@ -9,7 +10,8 @@ public class CheckComs implements Command {
     static CheckComs instance = null;
 
     @Override
-    public void run(User author, MessageChannel channel, String command, Guild guild) {
+    public void run(Message message) {
+        MessageChannel channel = message.getChannel();
         channel.sendMessage("ComChecks complete, standby for launch.").queue();
     }
 

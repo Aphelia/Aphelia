@@ -40,4 +40,17 @@ final class CommandUtils {
             return member;
         }
     }
+    static String getArgs(String fullMessage) {
+        if(!fullMessage.contains(" ")) return "";
+        char[] fullMessageChars = fullMessage.toCharArray();
+        StringBuilder tmp = new StringBuilder(); //remove all double spaces
+        boolean previousWasSpace = false;
+        for(char pos : fullMessageChars) {
+            if(pos == ' ' && previousWasSpace) continue;
+            previousWasSpace = (pos == ' ');
+            tmp.append(pos);
+        }
+        fullMessage = tmp.toString();
+        return fullMessage.substring(fullMessage.indexOf(" ") + 1);
+    }
 }

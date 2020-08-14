@@ -1,9 +1,6 @@
 package to.us.awesomest.aphelia.module.command;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import org.slf4j.LoggerFactory;
 import to.us.awesomest.aphelia.data.CoinData;
 import to.us.awesomest.aphelia.module.MessagingUtils;
@@ -16,8 +13,12 @@ public class Pay implements Command {
     }
 
     @Override
-    public void run(User author, MessageChannel channel, String args, Guild guild) {
-        if (args == null || !args.contains(" ")) {
+    public void run(Message message) {
+        User author = message.getAuthor();
+        MessageChannel channel = message.getChannel();
+        String args = CommandUtils.getArgs(message.getContentRaw());
+        Guild guild = message.getGuild();
+        if (!args.contains(" ")) {
             MessagingUtils.sendError(channel, "Usage: !pay <user> <amount>");
             return;
         }

@@ -2,6 +2,7 @@ package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,9 @@ public class Help implements Command {
     }
 
     @Override
-    public void run(User author, MessageChannel channel, @Nullable String args, @NotNull Guild guild) {
+    public void run(Message message) {
+        MessageChannel channel = message.getChannel();
+        Guild guild = message.getGuild();
         EmbedBuilder commandListBuilder = new EmbedBuilder();
         commandListBuilder
                 .setColor(new Color(255,215,0))

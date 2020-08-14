@@ -1,5 +1,6 @@
 package to.us.awesomest.aphelia.module.chathandlers;
 
+import net.dv8tion.jda.api.entities.Message;
 import org.slf4j.LoggerFactory;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -22,12 +23,12 @@ public class MCChannelHandler implements ChatHandler {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void run(User author, MessageChannel channel, String message, @NotNull Guild guild) {
-        if(!Satellite.hasOutputStream(channel.getId())) {
+    public void run(Message message) {
+        if(!Satellite.hasOutputStream(message.getChannel().getId())) {
             LoggerFactory.getLogger("MCChannelHandler").debug("Skipped message \"" + message + "\" as no matching client was found.");
             return;
         }
-        Satellite.passChatMessage(channel.getId(), guild.getMember(author).getEffectiveName(), message);
+        Satellite.passChatMessage(message.getChannel().getId(), message.getGuild().getMember(message.getAuthor()).getEffectiveName(), message.getContentRaw());
         LoggerFactory.getLogger("MCChannelHandler").debug("Sent message \"" + message + "\" to Satellite.");
     }
 

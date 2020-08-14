@@ -1,10 +1,7 @@
 package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.data.ShortcutData;
 
 public class DelShortcut implements Command {
@@ -25,7 +22,11 @@ public class DelShortcut implements Command {
     }
 
     @Override
-    public void run(User author, MessageChannel channel, String args, Guild guild) {
+    public void run(Message message) {
+        User author = message.getAuthor();
+        MessageChannel channel = message.getChannel();
+        String args = CommandUtils.getArgs(message.getContentRaw());
+        Guild guild = message.getGuild();
         Member commander = guild.getMember(author);
         if(args == null) {
             channel.sendMessage("Usage: !delShortcut <command case-insensitive>").queue();

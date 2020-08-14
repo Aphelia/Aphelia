@@ -1,6 +1,7 @@
 package to.us.awesomest.aphelia.module.chathandlers;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
@@ -18,10 +19,10 @@ public class ShortcutHandler implements ChatHandler{
     }
 
     @Override
-    public void run(User author, MessageChannel channel, @NotNull String command, @NotNull Guild guild) {
-        if(ShortcutData.getInstanceByGuildId(guild.getId()).hasEntry(command))
-        channel.sendMessage(ShortcutData.getInstanceByGuildId(guild.getId()).getEntry(command.toLowerCase())).queue();
-        else LoggerFactory.getLogger("ShortcutHandler").info("No valid shortcut found message " + command);
+    public void run(Message message) {
+        if(ShortcutData.getInstanceByGuildId(message.getGuild().getId()).hasEntry(message.getContentRaw().toLowerCase()))
+        message.getChannel().sendMessage(ShortcutData.getInstanceByGuildId(message.getGuild().getId()).getEntry(message.getContentRaw().toLowerCase())).queue();
+        else LoggerFactory.getLogger("ShortcutHandler").info("No valid shortcut found message " + message.getContentRaw());
     }
 
     @Override

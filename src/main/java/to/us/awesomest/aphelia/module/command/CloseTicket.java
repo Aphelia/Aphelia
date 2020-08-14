@@ -11,7 +11,11 @@ public class CloseTicket implements Command {
     }
 
     @Override
-    public void run(User author, MessageChannel channel, String args, Guild guild) {
+    public void run(Message message) {
+        User author = message.getAuthor();
+        MessageChannel channel = message.getChannel();
+        String args = CommandUtils.getArgs(message.getContentRaw());
+        Guild guild = message.getGuild();
         Member member = guild.getMember(author);
         assert member != null;
         if (!TicketData.getInstanceByGuildId(guild.getId()).hasEntry(channel.getId())) {

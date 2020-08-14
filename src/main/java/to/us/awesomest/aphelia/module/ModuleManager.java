@@ -1,6 +1,7 @@
 package to.us.awesomest.aphelia.module;
 
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.slf4j.LoggerFactory;
@@ -63,39 +64,19 @@ public class ModuleManager {
         PrefixData.getInstanceByGuildId(guildId).setEntry("prefix", prefix);
     }
 
-    public boolean runCommands(User user, MessageChannel channel, String command, @Nullable Guild guild) {
-        String commandName;
-        LoggerFactory.getLogger("ModuleManager").info("Received text " + command);
-        while (command.contains("  ")) {
-            command = command.replace("  ", " ");
-        }
-        if (command.contains(" ")) {
-            commandName = command.split(" ")[0];
-        } else {
-            commandName = command;
-        }
+    public boolean runCommands(Message message) {
+        String commandName = message.getContentRaw().substring(0, message.getContentRaw().indexOf(' '));
         for (Command commandClass : enabledCommands) {
             if (!commandName.equalsIgnoreCase(prefix + commandClass.getName())) {
                 continue;
             }
-            if (!commandClass.isDMUsable() && guild == null) {
-                channel.sendMessage("Error encountered: This command cannot be used in a DM.").queue();
-                LoggerFactory.getLogger("ModuleManager").debug("Rejected request to use " + command + " while not in a guild!");
+            if (!commandClass.isDMUsable() && !message.isFromGuild()) {
+                message.getChannel().sendMessage("Error encountered: This command cannot be used in a DM.").queue();
+                LoggerFactory.getLogger("ModuleManager").debug("Rejected request to use " + message.getContentRaw() + " while not in a guild!");
                 return false;
             }
-            LoggerFactory.getLogger("ModuleManager").debug("Sent " + command + " to " + commandClass.getName());
-            String args;
-
-            try {
-                args = command.substring(command.indexOf(" ") + 1);
-            } catch (StringIndexOutOfBoundsException e) {
-                args = null;
-            }
-
-            if (!command.contains(" ")) {
-                args = null; //otherwise, args would be the entire command, for some reason.
-            }
-            commandClass.run(user, channel, args, guild);
+            LoggerFactory.getLogger("ModuleManager").debug("Sent " + message.getContentRaw() + " to " + commandClass.getName());
+            commandClass.run(message);
             return true;
         }
         return false;

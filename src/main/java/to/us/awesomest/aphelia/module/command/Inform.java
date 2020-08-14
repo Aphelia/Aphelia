@@ -3,6 +3,7 @@ package to.us.awesomest.aphelia.module.command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import to.us.awesomest.aphelia.module.MessagingUtils;
@@ -20,7 +21,11 @@ public class Inform implements Command {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void run(User author, MessageChannel channel, String args, Guild guild) {
+    public void run(Message message) {
+        User author = message.getAuthor();
+        MessageChannel channel = message.getChannel();
+        String args = CommandUtils.getArgs(message.getContentRaw());
+        Guild guild = message.getGuild();
         if (args == null) {
             MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
             return;

@@ -2,6 +2,7 @@ package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import to.us.awesomest.aphelia.data.CoinData;
@@ -16,16 +17,19 @@ public class Balance implements Command {
     }
 
     @Override
-    public void run(User author, MessageChannel channel, String args, Guild guild) {
+    public void run(Message message) {
+        User author = message.getAuthor();
+        MessageChannel channel = message.getChannel();
+        String args = CommandUtils.getArgs(message.getContentRaw());
+        Guild guild = message.getGuild();
         EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
+
         String targetId = author.getId();
-        if (args != null) {
-            try {
-                targetId = CommandUtils.parseUser(guild, args).getId();
-            } catch (IllegalArgumentException e) {
-                MessagingUtils.sendError(channel, "No such user is in this guild.");
-                return;
-            }
+        try {
+            targetId = CommandUtils.parseUser(guild, args).getId();
+        } catch (IllegalArgumentException e) {
+            MessagingUtils.sendError(channel, "No such user is in this guild.");
+            return;
         }
 
         balanceInfoBuilder
