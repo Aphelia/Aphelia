@@ -1,14 +1,10 @@
 package to.us.awesomest.aphelia.module;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 import org.slf4j.LoggerFactory;
 import to.us.awesomest.aphelia.data.PrefixData;
 import to.us.awesomest.aphelia.module.command.*;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +61,9 @@ public class ModuleManager {
     }
 
     public boolean runCommands(Message message) {
-        String commandName = message.getContentRaw().substring(0, message.getContentRaw().indexOf(' '));
+        String commandName = message.getContentRaw();
+        if(message.getContentRaw().contains(" "))
+            commandName = message.getContentRaw().substring(0, message.getContentRaw().indexOf(' '));
         for (Command commandClass : enabledCommands) {
             if (!commandName.equalsIgnoreCase(prefix + commandClass.getName())) {
                 continue;
