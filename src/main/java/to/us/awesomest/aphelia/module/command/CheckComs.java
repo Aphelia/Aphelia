@@ -1,9 +1,6 @@
 package to.us.awesomest.aphelia.module.command;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 
 public class CheckComs implements Command {
     //Implement singleton handling
@@ -11,8 +8,7 @@ public class CheckComs implements Command {
 
     @Override
     public void run(Message message) {
-        MessageChannel channel = message.getChannel();
-        channel.sendMessage("ComChecks complete, standby for launch.").queue();
+        message.getChannel().sendMessage("ComChecks complete, standby for launch.").queue();
     }
 
     @Override

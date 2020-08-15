@@ -25,7 +25,7 @@ public class ChangePrefix implements Command {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
             return;
         }
-        if (args == null || args.trim().isEmpty()) {
+        if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel);
             return;
         }

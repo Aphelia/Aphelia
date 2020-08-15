@@ -24,7 +24,7 @@ public class Balance implements Command {
         Guild guild = message.getGuild();
         EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
 
-        String targetId = author.getId();
+        @SuppressWarnings("UnusedAssignment") String targetId = author.getId(); //not sure why the warning is happening in the first place?
         try {
             targetId = CommandUtils.parseUser(guild, args).getId();
         } catch (IllegalArgumentException e) {

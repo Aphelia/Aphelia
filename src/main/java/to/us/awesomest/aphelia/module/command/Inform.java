@@ -26,7 +26,7 @@ public class Inform implements Command {
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
         Guild guild = message.getGuild();
-        if (args == null) {
+        if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
             return;
         }

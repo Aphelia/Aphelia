@@ -2,17 +2,13 @@ package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import to.us.awesomest.aphelia.data.MCData;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class ConnectMC implements Command {
     @Override
@@ -22,15 +18,14 @@ public class ConnectMC implements Command {
 
     @Override
     public void run(Message message) {
-        User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
-        Guild guild = message.getGuild();
-        if (channel.getType().isGuild() && !Objects.requireNonNull(guild.getMember(author)).hasPermission(Permission.MANAGE_SERVER)) {
+        //noinspection ConstantConditions
+        if (channel.getType().isGuild() && !message.getGuild().getMember(message.getAuthor()).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
             return;
         }
-        if (args == null) {
+        if (args.trim().isEmpty()) {
             EmbedBuilder commandListBuilder = new EmbedBuilder();
             commandListBuilder
                     .setColor(new Color(255, 0, 0))
@@ -41,11 +36,12 @@ public class ConnectMC implements Command {
         }
         LoggerFactory.getLogger("ConnectMC").debug("Added token " + args + " to channel " + channel.getId());
         MCData.getInstance().setEntry(args, channel.getId());
+        message.delete().queue();
         EmbedBuilder feedbackBuilder = new EmbedBuilder();
         feedbackBuilder
                 .setColor(new Color(0, 255, 0))
                 .setTitle("Token set!")
-                .setDescription("Please remember to delete both this message and your command afterwards, as a third-party could use your token to take control over your server.");
+                .setDescription("Your message has automatically been deleted.");
         channel.sendMessage(feedbackBuilder.build()).queue();
     }
 

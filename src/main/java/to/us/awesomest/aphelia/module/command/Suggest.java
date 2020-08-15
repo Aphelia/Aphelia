@@ -3,7 +3,6 @@ package to.us.awesomest.aphelia.module.command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
-import org.jetbrains.annotations.NotNull;
 import to.us.awesomest.aphelia.Aphelia;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
@@ -30,7 +29,7 @@ public class Suggest implements Command {
             MessagingUtils.sendError(channel, "There is no channel called #suggestions! Please create one.");
             return;
         }
-        if (args == null || args.trim().isEmpty()) {
+        if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "You must supply a suggestion! Usage: !suggest [name]");
             return;
         }

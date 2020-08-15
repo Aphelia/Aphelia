@@ -11,6 +11,7 @@ import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
 
+@SuppressWarnings("DuplicatedCode")
 public class GiveCoins implements Command {
     @Override
     public boolean isDMUsable() {
