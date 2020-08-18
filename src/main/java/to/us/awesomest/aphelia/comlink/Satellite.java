@@ -114,7 +114,7 @@ public class Satellite extends Thread {
                     joinMessageBuilder
                             .setColor(new Color(0, 255, 0))
                             .setTitle("Join")
-                            .setDescription(data.get("user") + " joined the server!");
+                            .setDescription(data.get("user") + " joined the server! (" + data.get("online") + "/" + data.get("max") + " playing)");
                     discordChannel.sendMessage(joinMessageBuilder.build()).queue();
                     break;
                 case "LEAVE":
@@ -122,7 +122,7 @@ public class Satellite extends Thread {
                     leaveMessageBuilder
                             .setColor(new Color(255, 0, 0))
                             .setTitle("Leave")
-                            .setDescription(data.get("user") + " left the server.");
+                            .setDescription(data.get("user") + " left the server. (" + data.get("online") + "/" + data.get("max") + " playing)");
                     discordChannel.sendMessage(leaveMessageBuilder.build()).queue();
                     break;
                 case "DEATH":
@@ -163,6 +163,13 @@ public class Satellite extends Thread {
                     String str = inputStream.readUTF();
                     LoggerFactory.getLogger("Satellite").debug(str);
                     HashMap<String, String> data = json.fromJson(str, HashMap.class);
+
+                    if(!data.containsKey("protocol") || !data.get("protocol").equals("H1")) {
+                        outputStream.writeUTF("{\"type\":\"CHAT\", \"content\": \"§bThis §bversion §bof §bthe §bHermes §bfor §bAphelia §bis §bincompatible §bwith §bthis §bversion §bof §bAphelia §bHermes §bServer. §bPlease §bupdate §byour §bplugin.§r\", \"user\": \"§cAphelia §cSystem§r\"}");
+                        clientSocket.close();
+                        LoggerFactory.getLogger("Satellite").debug("Rejected client that had an unsupported protocol version.");
+                    }
+
                     if (data.get("type").equals("TOKENREQUEST")) {
                         HashMap<String, String> responseMap = new HashMap<>();
                         responseMap.put("response", generateToken(64));
@@ -173,11 +180,11 @@ public class Satellite extends Thread {
 
                     LoggerFactory.getLogger("Satellite").debug("Channel:" + MCData.getInstance().getEntry(data.get("token")));
                     if (!MCData.getInstance().hasEntry(data.get("token"))) {
-                        LoggerFactory.getLogger("Satellite").debug("Found invalid token, rejecting.");
+                        LoggerFactory.getLogger("Satellite").debug("There wasn't a token in the message; rejected.");
                         continue;
                     }
 
-                    if (data.get("type").equals("HEARTBEAT")) {
+                    if (data.get("type").equals("IDENTIFY")) {
                         TextChannel associatedChannel = (TextChannel) Aphelia.bot.getGuildChannelById(MCData.getInstance().getEntry(data.get("token")));
                         outputSocketMap.put(associatedChannel.getId(), outputStream);
                         LoggerFactory.getLogger("Satellite").debug("Received heartbeat message");
