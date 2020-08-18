@@ -47,10 +47,7 @@ public class NewShortcut implements Command {
             MessagingUtils.sendError(channel, "You can't have a shortcut with a blank output!");
             return;
         }
-        if(newOutput.length() > 31 || commandArgsArray[0].length() > 31) {
-            MessagingUtils.sendError(channel, "That's too long. Please try something shorter.");
-            return;
-        }
+
         ShortcutData.getInstanceByGuildId(guild.getId()).setEntry(newTrigger, newOutput);
         MessagingUtils.sendCompleted(channel, "Added!");
         System.out.println("Added " + newTrigger + " with output " + newOutput);
