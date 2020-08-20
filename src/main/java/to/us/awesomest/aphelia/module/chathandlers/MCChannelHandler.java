@@ -28,7 +28,7 @@ public class MCChannelHandler implements ChatHandler {
             Satellite.passChatMessage(message.getChannel().getId(), message.getGuild().getMember(message.getAuthor()).getEffectiveName(), "Attachment(s): " + message.getAttachments().size());
             return;
         }
-        Satellite.passChatMessage(message.getChannel().getId(), message.getGuild().getMember(message.getAuthor()).getEffectiveName(), message.getContentRaw());
+        Satellite.passChatMessage(message.getChannel().getId(), message.getGuild().getMember(message.getAuthor()).getEffectiveName(), message.getContentDisplay());
         LoggerFactory.getLogger("MCChannelHandler").debug("Sent message \"" + message + "\" to Satellite.");
     }
 
