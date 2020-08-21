@@ -7,8 +7,9 @@ public class CheckComs implements Command {
     static CheckComs instance = null;
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         message.getChannel().sendMessage("ComChecks complete, standby for launch.").queue();
+        return true;
     }
 
     @Override

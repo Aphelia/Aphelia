@@ -21,24 +21,24 @@ public class Inform implements Command {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
         Guild guild = message.getGuild();
         if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
-            return;
+            return false;
         }
         List<String> argsArray = new ArrayList<>(Arrays.asList(args.split(" ")));
         if (argsArray.size() < 2) {
             MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
-            return;
+            return false;
         }
         if (guild != null) {
             if (!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
                 MessagingUtils.sendNoPermissions(channel, "Manage Server");
-                return;
+                return false;
             }
         }
         EmbedBuilder informBuilder = new EmbedBuilder();
@@ -51,6 +51,7 @@ public class Inform implements Command {
         informBuilder.addField(" ", "*Like this? [Invite me](https://aphelia.github.io/invite)!*", false);
         informBuilder.setFooter("Sent by " + author.getName(), author.getAvatarUrl());
         channel.sendMessage(informBuilder.build()).queue();
+        return true;
     }
 
     @Override

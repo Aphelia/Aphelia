@@ -17,13 +17,13 @@ public class ConnectMC implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
         //noinspection ConstantConditions
         if (channel.getType().isGuild() && !message.getGuild().getMember(message.getAuthor()).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
-            return;
+            return false;
         }
         if (args.trim().isEmpty()) {
             EmbedBuilder commandListBuilder = new EmbedBuilder();
@@ -32,7 +32,7 @@ public class ConnectMC implements Command {
                     .setTitle("Invalid Syntax!")
                     .setDescription("Usage: !connectMC <token>");
             channel.sendMessage(commandListBuilder.build()).queue();
-            return;
+            return false;
         }
         LoggerFactory.getLogger("ConnectMC").debug("Added token " + args + " to channel " + channel.getId());
         MCData.getInstance().setEntry(args, channel.getId());
@@ -43,6 +43,7 @@ public class ConnectMC implements Command {
                 .setTitle("Token set!")
                 .setDescription("Your message has automatically been deleted.");
         channel.sendMessage(feedbackBuilder.build()).queue();
+        return true;
     }
 
     @Override

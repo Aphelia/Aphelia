@@ -17,7 +17,7 @@ public class Balance implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -29,7 +29,7 @@ public class Balance implements Command {
             targetId = CommandUtils.parseUser(guild, args).getId();
         } catch (IllegalArgumentException e) {
             MessagingUtils.sendError(channel, "No such user is in this guild.");
-            return;
+            return false;
         }
 
         balanceInfoBuilder
@@ -37,6 +37,7 @@ public class Balance implements Command {
                 .setColor(new Color(127, 255, 0))
                 .addField("Balance:", CoinData.getInstanceByGuildId(guild.getId()).getEntry(targetId), false);
         channel.sendMessage(balanceInfoBuilder.build()).queue();
+        return true;
     }
 
     @Override

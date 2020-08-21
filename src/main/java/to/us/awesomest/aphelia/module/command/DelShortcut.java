@@ -23,14 +23,14 @@ public class DelShortcut implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         Member commander = message.getGuild().getMember(message.getAuthor());
 
         String[] commandArgsArray = CommandUtils.getArgs(message.getContentRaw()).split(" ");
         assert commander != null;
         if(!commander.hasPermission(Permission.MANAGE_SERVER)) {
             message.getChannel().sendMessage("Not enough permissions! You must have **Manage Server**").queue();
-            return;
+            return false;
         }
 
         if(commandArgsArray.length != 1) {
@@ -39,10 +39,11 @@ public class DelShortcut implements Command {
 
         if(!ShortcutData.getInstanceByGuildId(message.getGuild().getId()).hasEntry(commandArgsArray[0])){
             message.getChannel().sendMessage("Error: That shortcut does not exist!").queue();
-            return;
+            return false;
         }
         ShortcutData.getInstanceByGuildId(message.getGuild().getId()).deleteEntry(commandArgsArray[0]);
         message.getChannel().sendMessage("Deleted!").queue();
         System.out.println("Deleted " + commandArgsArray[0]);
+        return true;
     }
 }

@@ -23,7 +23,7 @@ public class NewShortcut implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -33,23 +33,24 @@ public class NewShortcut implements Command {
         assert commander != null;
         if(!commander.hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendError(channel, "Not enough permissions! You must have **Manage Server**");
-            return;
+            return false;
         }
 
         if(commandArgsArray.length != 2) {
             MessagingUtils.sendError(channel, "Usage: !newShortcut <command case-insensitive> <output> (Note: Replace spaces with underscores).");
-            return;
+            return false;
         }
 
         String newTrigger = commandArgsArray[0].replaceAll("_", " ");
         String newOutput = commandArgsArray[1].replaceAll("_", " ");
         if(newOutput.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "You can't have a shortcut with a blank output!");
-            return;
+            return false;
         }
 
         ShortcutData.getInstanceByGuildId(guild.getId()).setEntry(newTrigger, newOutput);
         MessagingUtils.sendCompleted(channel, "Added!");
         System.out.println("Added " + newTrigger + " with output " + newOutput);
+        return true;
     }
 }

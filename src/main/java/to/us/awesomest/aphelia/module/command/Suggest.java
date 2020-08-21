@@ -18,7 +18,7 @@ public class Suggest implements Command {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -27,11 +27,11 @@ public class Suggest implements Command {
         List<TextChannel> suggestionChannels = guild.getTextChannelsByName("suggestions", true);
         if (suggestionChannels.size() < 1) {
             MessagingUtils.sendError(channel, "There is no channel called #suggestions! Please create one.");
-            return;
+            return false;
         }
         if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel, "You must supply a suggestion! Usage: !suggest [name]");
-            return;
+            return false;
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder
@@ -45,6 +45,7 @@ public class Suggest implements Command {
         suggestion.addReaction("yes:726439200509001748").queue();
         suggestion.addReaction("no:726439200450412584").queue();
         MessagingUtils.sendCompleted(channel);
+        return true;
     }
 
     @Override

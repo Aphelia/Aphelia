@@ -15,7 +15,7 @@ public class Ticket implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -24,7 +24,7 @@ public class Ticket implements Command {
         assert member != null;
         if (TicketData.getInstanceByGuildId(guild.getId()).hasValue(author.getId())) {
             MessagingUtils.sendError(channel, "You already have a ticket open!");
-            return;
+            return false;
         }
         EnumSet<Permission> read = EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
         TextChannel ticketChannel;
@@ -59,6 +59,7 @@ public class Ticket implements Command {
         ticketChannel.sendMessage("*To close this ticket, do " + ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + "close*").queue();
         TicketData.getInstanceByGuildId(guild.getId()).setEntry(ticketChannel.getId(), author.getId());
         MessagingUtils.sendCompleted(channel);
+        return true;
     }
 
     @Override

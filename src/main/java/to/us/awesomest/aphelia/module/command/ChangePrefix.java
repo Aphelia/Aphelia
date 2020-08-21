@@ -16,21 +16,22 @@ public class ChangePrefix implements Command {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
         Guild guild = message.getGuild();
         if (!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
-            return;
+            return false;
         }
         if (args.trim().isEmpty()) {
             MessagingUtils.sendError(channel);
-            return;
+            return false;
         }
         ModuleManager.getInstanceByGuildId(guild.getId()).setPrefix(args);
         MessagingUtils.sendCompleted(channel);
+        return true;
     }
 
     @Override

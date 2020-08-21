@@ -19,7 +19,7 @@ public class Gamble implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -34,7 +34,7 @@ public class Gamble implements Command {
                         .setColor(new Color(0, 255, 0))
                         .setDescription("You can't gamble more than you're worth!");
                 channel.sendMessage(feedbackBuilder.build()).queue();
-                return;
+                return false;
             }
             if (Integer.parseInt(args) <= 0) {
                 EmbedBuilder feedbackBuilder = new EmbedBuilder();
@@ -43,7 +43,7 @@ public class Gamble implements Command {
                         .setColor(new Color(0, 255, 0))
                         .setDescription("Don't be so negative. Or worthless.");
                 channel.sendMessage(feedbackBuilder.build()).queue();
-                return;
+                return false;
             }
             if (random.nextBoolean()) {
                 bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) + Integer.parseInt(args));
@@ -68,6 +68,7 @@ public class Gamble implements Command {
         catch(Exception e) {
             MessagingUtils.sendError(channel);
         }
+        return true;
     }
 
     @Override

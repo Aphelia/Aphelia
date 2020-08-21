@@ -18,7 +18,7 @@ public class TakeCoins implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());
@@ -26,7 +26,7 @@ public class TakeCoins implements Command {
         //noinspection ConstantConditions
         if(!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
             MessagingUtils.sendNoPermissions(channel, "Manage Server");
-            return;
+            return false;
         }
         try {
             String targetId = author.getId();
@@ -37,7 +37,7 @@ public class TakeCoins implements Command {
                     amount = Integer.parseInt(args.split(" ")[1]);
                 } catch (IllegalArgumentException e) {
                     MessagingUtils.sendError(channel, "That formatting seems to be wrong. Check that the user exists and the amount is a valid integer.");
-                    return;
+                    return false;
                 }
             } else {
                 amount = Integer.parseInt(args);
@@ -54,6 +54,7 @@ public class TakeCoins implements Command {
             e.printStackTrace();
             MessagingUtils.sendError(channel, "Usage: !takeCoins [user] <amount>");
         }
+        return true;
 
     }
 

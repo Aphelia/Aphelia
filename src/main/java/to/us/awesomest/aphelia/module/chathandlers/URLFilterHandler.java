@@ -23,12 +23,12 @@ public class URLFilterHandler implements ChatHandler {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         @SuppressWarnings("ConstantConditions")
         boolean hasAdBypass = (message.getMember().getRoles().stream()
                 .filter(role -> role.getName().equals("Aphelia AdBypass")) // filter by role name
                 .count()) >= 1; //probably a cleaner way to do this but I don't
-        if(hasAdBypass) return;
+        if(hasAdBypass) return false;
         if(message.getContentRaw().matches(".*[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*).*")) {
             MessageChannel channel = message.getChannel();
             message.delete().complete(); //I do want it to block.
@@ -43,6 +43,7 @@ public class URLFilterHandler implements ChatHandler {
             }
             sent.delete().queue();
         }
+        return true;
     }
 
     @Override

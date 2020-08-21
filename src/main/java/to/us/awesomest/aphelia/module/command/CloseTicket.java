@@ -14,16 +14,17 @@ public class CloseTicket implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         MessageChannel channel = message.getChannel();
         Member member = message.getGuild().getMember(message.getAuthor());
         assert member != null;
         if (!TicketData.getInstanceByGuildId(message.getGuild().getId()).hasEntry(channel.getId())) {
             MessagingUtils.sendError(channel, "This channel is not a ticket!");
-            return;
+            return false;
         }
         ((TextChannel) channel).delete().queue();
         TicketData.getInstanceByGuildId(message.getGuild().getId()).deleteEntry(channel.getId());
+        return true;
     }
 
     @Override

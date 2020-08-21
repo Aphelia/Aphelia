@@ -4,13 +4,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
-import org.jetbrains.annotations.NotNull;
 import to.us.awesomest.aphelia.Aphelia;
 import to.us.awesomest.aphelia.data.ShortcutData;
 import to.us.awesomest.aphelia.module.ModuleManager;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Map;
 
@@ -21,7 +18,7 @@ public class Help implements Command {
     }
 
     @Override
-    public void run(Message message) {
+    public boolean run(Message message) {
         MessageChannel channel = message.getChannel();
         Guild guild = message.getGuild();
         EmbedBuilder commandListBuilder = new EmbedBuilder();
@@ -47,6 +44,7 @@ public class Help implements Command {
         if(shortcutListBuilder.getFields().isEmpty()) shortcutListBuilder.addField("", "*No shortcuts have been defined. Go define some (or, if you don't have permissions, ask a manager to do it for you)!*", false);
         shortcutListBuilder.addField("", "*Like my command set? [Invite me!](https://aphelia.github.io/invite)*", false);
         channel.sendMessage(shortcutListBuilder.build()).queue();
+        return true;
     }
 
     @Override
