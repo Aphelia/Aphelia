@@ -1,7 +1,6 @@
 package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -19,7 +18,6 @@ public class Inform implements Command {
         return true;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public boolean run(Message message) {
         User author = message.getAuthor();
@@ -34,12 +32,6 @@ public class Inform implements Command {
         if (argsArray.size() < 2) {
             MessagingUtils.sendError(channel, "Invalid syntax! Usage: !inform <title> <description> <line 1> <line 2> ... <line *n*> (Replace spaces with underscores).");
             return false;
-        }
-        if (guild != null) {
-            if (!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
-                MessagingUtils.sendNoPermissions(channel, "Manage Server");
-                return false;
-            }
         }
         EmbedBuilder informBuilder = new EmbedBuilder();
         informBuilder.setColor(new Color(0, 22, 88));
