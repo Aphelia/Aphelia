@@ -18,7 +18,7 @@ public class ChatListener extends ListenerAdapter {
         LoggerFactory.getLogger("ChatListener").debug("Processing message " + event.getMessage().getContentRaw());
         if(event.isFromGuild()) {
             if(ModuleManager.getInstanceByGuildId(event.getGuild().getId()).runCommands(event.getMessage())) return;
-            URLFilterHandler.getURLFilterHandlerByGuildId(event.getGuild().getId()).run(event.getMessage());
+            if(URLFilterHandler.getURLFilterHandlerByGuildId(event.getGuild().getId()).run(event.getMessage())) return;
             LoggerFactory.getLogger("ChatListener").debug("Did not find relevant command for message " + event.getMessage().getContentRaw() + ", going to shortcuts.");
             ShortcutHandler.getShortcutHandlerByGuildId(event.getGuild().getId()).run(event.getMessage());
             LoggerFactory.getLogger("ChatListener").debug("Sending to MC " + event.getMessage().getContentRaw());
