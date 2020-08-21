@@ -29,7 +29,7 @@ public class URLFilterHandler implements ChatHandler {
                 .filter(role -> role.getName().equals("Aphelia AdBypass")) // filter by role name
                 .count()) >= 1; //probably a cleaner way to do this but I don't
         if(hasAdBypass) return false;
-        if(message.getContentRaw().matches(".*[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*).*")) {
+        if(message.getContentRaw().matches("(?:[a-zA-Z0-9]+(?:\\.|\\[dot\\]|\\[DOT]|,))+[a-zA-Z]{2,20}")) {
             MessageChannel channel = message.getChannel();
             message.delete().complete(); //I do want it to block.
             EmbedBuilder feedbackBuilder = new EmbedBuilder();
