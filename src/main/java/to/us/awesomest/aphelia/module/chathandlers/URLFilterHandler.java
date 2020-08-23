@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class URLFilterHandler implements ChatHandler {
 
@@ -29,9 +31,12 @@ public class URLFilterHandler implements ChatHandler {
                 .filter(role -> role.getName().equals("Aphelia AdBypass")) // filter by role name
                 .count()) >= 1; //probably a cleaner way to do this but I don't
         if(hasAdBypass) return false;
-        if(message.getContentRaw().matches("(?:[a-zA-Z0-9]+(?:\\.|\\[dot\\]|\\[DOT]|,))+[a-zA-Z]{2,20}")) {
+        Pattern pattern = Pattern.compile("(?:[a-zA-Z0-9]+(?:\\.|\\[dot\\]|\\[DOT]|,))+(?<tld>[a-zA-Z]{2,20})");
+
+        Matcher matcher = pattern.matcher(message.getContentRaw());
+        if(matcher.find(0) && TLDUtils.isTLD(matcher.group("tld"))) {
             MessageChannel channel = message.getChannel();
-            message.delete().complete(); //I do want it to block.
+            message.delete().queue();
             EmbedBuilder feedbackBuilder = new EmbedBuilder();
             feedbackBuilder.setTitle("Please don't advertise here!");
             feedbackBuilder.setColor(Color.YELLOW);
@@ -42,8 +47,9 @@ public class URLFilterHandler implements ChatHandler {
                 e.printStackTrace();
             }
             sent.delete().queue();
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
