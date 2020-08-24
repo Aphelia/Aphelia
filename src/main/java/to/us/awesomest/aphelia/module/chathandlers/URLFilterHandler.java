@@ -31,7 +31,7 @@ public class URLFilterHandler implements ChatHandler {
                 .filter(role -> role.getName().equals("Aphelia AdBypass")) // filter by role name
                 .count()) >= 1; //probably a cleaner way to do this but I don't
         if(hasAdBypass) return false;
-        Pattern pattern = Pattern.compile("(?:[a-zA-Z0-9]+(?:\\.|\\[dot\\]|\\[DOT]|,))+(?<tld>[a-zA-Z]{2,20})");
+        Pattern pattern = Pattern.compile("(?:[a-zA-Z0-9]+(?:\\.|\\[dot\\]|\\[DOT]|,| dot | DOT |dot|DOT))+(?<tld>[a-zA-Z]{2,20})");
 
         Matcher matcher = pattern.matcher(message.getContentRaw());
         if(matcher.find(0) && TLDUtils.isTLD(matcher.group("tld"))) {
