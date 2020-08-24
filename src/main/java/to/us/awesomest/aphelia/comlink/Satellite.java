@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"InfiniteLoopStatement", "SpellCheckingInspection"})
 
@@ -25,6 +26,7 @@ public class Satellite extends Thread {
     private static final HashMap<String, DataOutputStream> outputSocketMap = new HashMap<>();
     static Gson json = new Gson();
     private static Satellite instance;
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
 
     private Satellite() {
     }
@@ -86,8 +88,8 @@ public class Satellite extends Thread {
             throw new NullPointerException("No socket for that channel found!");
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("type", "CHAT");
-        dataMap.put("content", message);
-        dataMap.put("user", username);
+        dataMap.put("content", stripColor(message));
+        dataMap.put("user", stripColor(username));
         try {
             outputSocketMap.get(channelId).writeUTF(json.toJson(dataMap));
         } catch (IOException e) {
@@ -105,8 +107,8 @@ public class Satellite extends Thread {
         private static void processByType(TextChannel discordChannel, HashMap<String, String> data) {
             switch(data.get("type")) {
                 case "CHAT":
-                    discordChannel.sendMessage("**" + data.get("user") + "**: " + data.get("content")).queue();
-                    System.out.println("Sent " + data.get("content"));
+                    discordChannel.sendMessage("**" + data.get("user") + "**: " + stripColor(data.get("content"))).queue();
+                    System.out.println("Sent " + stripColor(data.get("content")));
                     System.out.println("Listening...");
                     break;
                 case "JOIN":
@@ -203,5 +205,8 @@ public class Satellite extends Thread {
                 //probably just some client disconnecting
             }
         }
+    }
+    public static String stripColor(String input) {
+        return input == null ? null : STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
     }
 }
