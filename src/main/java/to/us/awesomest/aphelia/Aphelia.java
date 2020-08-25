@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import to.us.awesomest.aphelia.comlink.Satellite;
 import to.us.awesomest.aphelia.listeners.ChatListener;
+import to.us.awesomest.aphelia.listeners.EditListener;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -59,7 +60,7 @@ public class Aphelia {
         intents.add(GatewayIntent.GUILD_MEMBERS);
         bot = JDABuilder.create(token, intents)
                 .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new ChatListener())
+                .addEventListeners(new ChatListener(), new EditListener())
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
                 .build();
         bot.getPresence().setActivity(Activity.playing("!help | " + getVersion()));
