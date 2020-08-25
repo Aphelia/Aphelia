@@ -92,8 +92,9 @@ public class Satellite extends Thread {
         dataMap.put("user", stripColor(username));
         try {
             outputSocketMap.get(channelId).writeUTF(json.toJson(dataMap));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            outputSocketMap.remove(channelId);
+            LoggerFactory.getLogger("Satellite").debug("Caught IOException in method passChatMessage, assuming disconnected server, removing from cache.");
         }
     }
 
