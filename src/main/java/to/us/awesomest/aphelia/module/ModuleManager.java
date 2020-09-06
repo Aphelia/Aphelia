@@ -29,6 +29,7 @@ public class ModuleManager {
             new Suggest(),
             new Gamble(),
             new ChangePrefix(),
+            new ChangeLang(),
             new Inform()};
 
     public static ModuleManager getInstanceByGuildId(String guildId) {

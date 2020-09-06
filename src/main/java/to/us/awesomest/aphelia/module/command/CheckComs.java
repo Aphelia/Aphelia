@@ -1,6 +1,7 @@
 package to.us.awesomest.aphelia.module.command;
 
 import net.dv8tion.jda.api.entities.Message;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 
 public class CheckComs implements Command {
     //Implement singleton handling
@@ -8,7 +9,10 @@ public class CheckComs implements Command {
 
     @Override
     public boolean run(Message message) {
-        message.getChannel().sendMessage("ComChecks complete, standby for launch.").queue();
+        message.getChannel().sendMessage(LanguageUtils.getMessage(message.getGuild(), "comChecksSuccess")
+                .replace("%gatewayping%", String.valueOf(message.getJDA().getGatewayPing()))
+                .replace("%restping%", String.valueOf(message.getJDA().getGatewayPing())))
+                .queue();
         return true;
     }
 
