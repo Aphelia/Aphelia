@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import to.us.awesomest.aphelia.data.CoinData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
@@ -28,14 +29,14 @@ public class Balance implements Command {
         try {
             targetId = CommandUtils.parseUser(guild, args).getId();
         } catch (IllegalArgumentException e) {
-            MessagingUtils.sendError(channel, "No such user is in this guild.");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorInvalidMember"));
             return false;
         }
 
         balanceInfoBuilder
-                .setTitle("Balance")
+                .setTitle(LanguageUtils.getMessage(message.getGuild(), "balanceCapitalized"))
                 .setColor(new Color(127, 255, 0))
-                .addField("Balance:", CoinData.getInstanceByGuildId(guild.getId()).getEntry(targetId), false);
+                .addField(LanguageUtils.getMessage(message.getGuild(), "balanceCapitalized") + ":", CoinData.getInstanceByGuildId(guild.getId()).getEntry(targetId), false);
         channel.sendMessage(balanceInfoBuilder.build()).queue();
         return true;
     }

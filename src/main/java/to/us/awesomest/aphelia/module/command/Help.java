@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import to.us.awesomest.aphelia.Aphelia;
 import to.us.awesomest.aphelia.data.ShortcutData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.ModuleManager;
 
 import java.awt.*;
@@ -24,25 +25,25 @@ public class Help implements Command {
         EmbedBuilder commandListBuilder = new EmbedBuilder();
         commandListBuilder
                 .setColor(new Color(255,215,0))
-                .setTitle("Commands")
-                .setDescription("The official commands for Aphelia.")
-                .setFooter("Aphelia " + Aphelia.getVersion() + " by AwesomestGamer#4703");
+                .setTitle(LanguageUtils.getMessage(message.getGuild(), "infoCommands"))
+                .setDescription(LanguageUtils.getMessage(message.getGuild(), "infoCommandsLong"))
+                .setFooter("Aphelia " + Aphelia.getVersion() + " " + LanguageUtils.getMessage(message.getGuild(), "phraseMadeBy") + " AwesomestGamer#4703");
         for(Command command : ModuleManager.getInstanceByGuildId(guild.getId()).getEnabledCommands()) {
             commandListBuilder.addField(ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + command.getName(), command.getDescription(),false);
         }
-        commandListBuilder.addField("", "*Like my command set? [Invite me!](https://aphelia.github.io/invite)*", false);
+        commandListBuilder.addField("", LanguageUtils.getMessage(message.getGuild(), "adCommandSet"), false);
         channel.sendMessage(commandListBuilder.build()).queue();
         EmbedBuilder shortcutListBuilder = new EmbedBuilder();
         shortcutListBuilder
                 .setColor(new Color(255,215,0))
-                .setTitle("Shortcuts")
-                .setDescription("The user defined shortcuts for this server.")
+                .setTitle(LanguageUtils.getMessage(message.getGuild(), "phraseShortcuts"))
+                .setDescription(LanguageUtils.getMessage(message.getGuild(), "infoShortcutsLong"))
                 .setFooter("Aphelia " + Aphelia.getVersion() + " by AwesomestGamer#4703");
         for(Map.Entry<String, String> shortcut : ShortcutData.getInstanceByGuildId(guild.getId()).getAllEntries()) {
             shortcutListBuilder.addField(shortcut.getKey(), shortcut.getValue(),false);
         }
-        if(shortcutListBuilder.getFields().isEmpty()) shortcutListBuilder.addField("", "*No shortcuts have been defined. Go define some (or, if you don't have permissions, ask a manager to do it for you)!*", false);
-        shortcutListBuilder.addField("", "*Like my command set? [Invite me!](https://aphelia.github.io/invite)*", false);
+        if(shortcutListBuilder.getFields().isEmpty()) shortcutListBuilder.addField("", LanguageUtils.getMessage(message.getGuild(), "infoDefineShortcuts"), false);
+        shortcutListBuilder.addField("", LanguageUtils.getMessage(message.getGuild(), "adShortcutFeature"), false);
         channel.sendMessage(shortcutListBuilder.build()).queue();
         return true;
     }

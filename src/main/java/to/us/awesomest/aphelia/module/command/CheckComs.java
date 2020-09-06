@@ -9,7 +9,7 @@ public class CheckComs implements Command {
 
     @Override
     public boolean run(Message message) {
-        message.getChannel().sendMessage(LanguageUtils.getMessage(message.getGuild(), "comChecksSuccess")
+        message.getChannel().sendMessage(LanguageUtils.getMessage(message.getGuild(), "successComChecks")
                 .replace("%gatewayping%", String.valueOf(message.getJDA().getGatewayPing()))
                 .replace("%restping%", String.valueOf(message.getJDA().getGatewayPing())))
                 .queue();

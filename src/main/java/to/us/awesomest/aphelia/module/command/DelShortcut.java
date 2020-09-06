@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import to.us.awesomest.aphelia.data.ShortcutData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
+import to.us.awesomest.aphelia.module.MessagingUtils;
 
 public class DelShortcut implements Command {
 
@@ -29,7 +31,7 @@ public class DelShortcut implements Command {
         String[] commandArgsArray = CommandUtils.getArgs(message.getContentRaw()).split(" ");
         assert commander != null;
         if(!commander.hasPermission(Permission.MANAGE_SERVER)) {
-            message.getChannel().sendMessage("Not enough permissions! You must have **Manage Server**").queue();
+            MessagingUtils.sendNoPermissions(message.getChannel(), LanguageUtils.getMessage(message.getGuild(), "permissionManageServer"));
             return false;
         }
 
@@ -38,11 +40,11 @@ public class DelShortcut implements Command {
         }
 
         if(!ShortcutData.getInstanceByGuildId(message.getGuild().getId()).hasEntry(commandArgsArray[0])){
-            message.getChannel().sendMessage("Error: That shortcut does not exist!").queue();
+            MessagingUtils.sendNoPermissions(message.getChannel(), LanguageUtils.getMessage(message.getGuild(), "permissionManageServer"));
             return false;
         }
         ShortcutData.getInstanceByGuildId(message.getGuild().getId()).deleteEntry(commandArgsArray[0]);
-        message.getChannel().sendMessage("Deleted!").queue();
+        message.getChannel().sendMessage(LanguageUtils.getMessage(message.getGuild(), "successShortcutDeleted")).queue();
         System.out.println("Deleted " + commandArgsArray[0]);
         return true;
     }

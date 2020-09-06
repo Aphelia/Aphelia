@@ -3,6 +3,7 @@ package to.us.awesomest.aphelia.module.command;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.data.ShortcutData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 public class NewShortcut implements Command {
@@ -32,7 +33,7 @@ public class NewShortcut implements Command {
         String[] commandArgsArray = args.split(" ");
         assert commander != null;
         if(!commander.hasPermission(Permission.MANAGE_SERVER)) {
-            MessagingUtils.sendError(channel, "Not enough permissions! You must have **Manage Server**");
+            MessagingUtils.sendNoPermissions(channel, LanguageUtils.getMessage(message.getGuild(), "permissionManageServer"));
             return false;
         }
 
@@ -44,12 +45,12 @@ public class NewShortcut implements Command {
         String newTrigger = commandArgsArray[0].replaceAll("_", " ");
         String newOutput = commandArgsArray[1].replaceAll("_", " ");
         if(newOutput.trim().isEmpty()) {
-            MessagingUtils.sendError(channel, "You can't have a shortcut with a blank output!");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorBlankShortcut"));
             return false;
         }
 
         ShortcutData.getInstanceByGuildId(guild.getId()).setEntry(newTrigger, newOutput);
-        MessagingUtils.sendCompleted(channel, "Added!");
+        MessagingUtils.sendCompleted(channel, LanguageUtils.getMessage(message.getGuild(), "successShortcutAdded"));
         System.out.println("Added " + newTrigger + " with output " + newOutput);
         return true;
     }

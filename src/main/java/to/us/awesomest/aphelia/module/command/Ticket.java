@@ -3,6 +3,7 @@ package to.us.awesomest.aphelia.module.command;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.data.TicketData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 import to.us.awesomest.aphelia.module.ModuleManager;
 
@@ -23,7 +24,7 @@ public class Ticket implements Command {
         Member member = guild.getMember(author);
         assert member != null;
         if (TicketData.getInstanceByGuildId(guild.getId()).hasValue(author.getId())) {
-            MessagingUtils.sendError(channel, "You already have a ticket open!");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorTicketAlreadyOpen"));
             return false;
         }
         EnumSet<Permission> read = EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE);
@@ -49,14 +50,14 @@ public class Ticket implements Command {
                         .addMemberPermissionOverride(author.getIdLong(), read, null)
                         .complete();
             }
-            MessagingUtils.sendInfo(ticketChannel, "*There is no base ticket channel in this server! For more info, click [here](https://aphelia.github.io/tickethelp/).*");
+            MessagingUtils.sendInfo(ticketChannel, LanguageUtils.getMessage(message.getGuild(), "infoNoBaseTicket"));
         } else {
             ticketChannel = guild.createCopyOfChannel(guild.getTextChannelsByName("base-ticket", true).get(0))
                     .setName(author.getName() + "'s ticket")
                     .addMemberPermissionOverride(author.getIdLong(), read, null)
                     .complete();
         }
-        ticketChannel.sendMessage("*To close this ticket, do " + ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix() + "close*").queue();
+        ticketChannel.sendMessage(LanguageUtils.getMessage(message.getGuild(), "infoCloseTicket").replace("%prefix%", ModuleManager.getInstanceByGuildId(guild.getId()).getPrefix())).queue();
         TicketData.getInstanceByGuildId(guild.getId()).setEntry(ticketChannel.getId(), author.getId());
         MessagingUtils.sendCompleted(channel);
         return true;

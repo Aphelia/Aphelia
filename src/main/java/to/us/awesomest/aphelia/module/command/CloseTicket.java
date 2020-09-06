@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import to.us.awesomest.aphelia.data.TicketData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 public class CloseTicket implements Command {
@@ -19,7 +20,7 @@ public class CloseTicket implements Command {
         Member member = message.getGuild().getMember(message.getAuthor());
         assert member != null;
         if (!TicketData.getInstanceByGuildId(message.getGuild().getId()).hasEntry(channel.getId())) {
-            MessagingUtils.sendError(channel, "This channel is not a ticket!");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorChannelNotTicket"));
             return false;
         }
         ((TextChannel) channel).delete().queue();

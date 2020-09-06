@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import to.us.awesomest.aphelia.Aphelia;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
@@ -26,11 +27,11 @@ public class Suggest implements Command {
         EnumSet<Permission> deny = EnumSet.of(Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE);
         List<TextChannel> suggestionChannels = guild.getTextChannelsByName("suggestions", true);
         if (suggestionChannels.size() < 1) {
-            MessagingUtils.sendError(channel, "There is no channel called #suggestions! Please create one.");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorNoSuggestionsChannel"));
             return false;
         }
         if (args.trim().isEmpty()) {
-            MessagingUtils.sendError(channel, "You must supply a suggestion! Usage: !suggest [name]");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorMissingSuggestion") + " Usage: !suggest [name]");
             return false;
         }
         EmbedBuilder embedBuilder = new EmbedBuilder();

@@ -1,1 +1,50 @@
-comChecksSuccess = Les ComChecks sont réussis; attendez pour lancer. ```Gateway latence: %gatewayping%ms\nREST latence: %restping%ms```
+#Annonces (pour les utilisateurs qui vous harcèlent)
+adCommandSet = *Comme mon jeu de commandes ? [Invitez-moi !](https://aphelia.github.io/invite)*
+adLikeThis = *Like this ? [Invitez-moi](https://aphelia.github.io/invite)!*
+adShortcutFeature = *Comme la fonction de raccourci ? [Invitez-moi !](https://aphelia.github.io/invite)*
+
+#Erreurs
+errorBlankShortcut = Vous ne pouvez pas avoir un raccourci avec une sortie vide !
+errorChannelNotTicket = Ce canal n'est pas un ticket !
+errorInvalidLanguage = Langue non valide : veuillez utiliser un format comme "en_US".
+errorInvalidMember = Il n'y a pas d'utilisateur de ce type dans ce serveur.
+errorInvalidPaymentAmount = Ce n'est pas un montant valide à payer.
+errorInvalidShortcut = Ce raccourci n'existe pas !
+errorInvalidSyntax = Syntaxe invalide !
+errorMissingCoins = Pas assez de pièces !
+errorMissingCoinsLong = Vous ne pouvez pas jouer plus que ce que vous valez !
+errorMissingSuggestion = Vous devez fournir une suggestion !
+errorNegativePayment = Vous ne pouvez pas payer un montant négatif !
+errorNoSuggestionsChannel = Il n'y a pas de canal de suggestions ! Veuillez en créer un.
+errorPositivesOnly = Seulement les positives.
+errorPositivesOnlyLong = Ne soyez pas si négatif. Ou sans valeur.
+errorTicketAlreadyOpen = Vous avez déjà un ticket ouvert !
+
+#Information
+infoCloseTicket = Pour fermer ce billet, dites %prefix%close.
+infoCommands = Commandes
+infoCommandsLong = Les commandes officielles de l'Aphelia.
+infoDefineShortcuts = *Aucun raccourci n'a été défini. Allez en définir (ou, si vous n'avez pas de permissions, demandez à un gestionnaire de le faire pour vous) !
+infoInvalidBalanceLong = Ce formatage semble incorrect. Vérifiez que l'utilisateur existe et que le montant est un entier valide.
+infoNoBaseTicket = *Il n'y a pas de canal de ticket de base dans ce serveur ! Pour plus d'informations, cliquez [ici](https://aphelia.github.io/tickethelp/).*
+infoShortcutsLong = L'utilisateur a défini des raccourcis pour ce serveur.
+infoYouLost = Vous avez perdu !
+infoYourBalance = Votre solde
+infoYouWon = Vous avez gagné !
+
+#Permissions
+permissionManageServer = Gérer le serveur
+
+#Phrases (intégrées dans les messages, la plupart d'entre elles seront modifiées pour utiliser les caractères de remplissage plus tard).
+phraseBalanceCapitalized = Solde
+phraseMadeBy = par
+phraseSentBy = Envoyé par
+phraseShortcuts = raccourcis
+phraseYouPaid = Vous avez payé
+
+#Messages de succès
+successComChecks = ComChecks complet, en attente de lancement. "Gateway Ping : %gatewayping%ms\nREST Ping : %restping%ms``
+successMessageAutoDeleted = Votre message a été automatiquement supprimé.
+successShortcutAdded = Raccourci ajouté !
+successShortcutDeleted = Raccourci supprimé !
+successTokenSet = Token set !

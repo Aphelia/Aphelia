@@ -1,0 +1,50 @@
+#广告(给唠叨的用户)
+adCommandSet = *喜欢我的命令集吗？[邀请我!](https://aphelia.github.io/invite)*。
+adLikeThis = *喜欢这个？[邀请我](https://aphelia.github.io/invite)！*。
+adShortcutFeature = *喜欢这个快捷功能？[邀请我！](https://aphelia.github.io/invite)*。
+
+#错误
+errorBlankShortcut = 你不能有一个输出为空白的快捷方式!
+errorChannelNotTicket = 这个频道不是一个票据!
+errorInvalidLanguage = 无效语言：请使用``en_US``这样的格式。
+errorInvalidMember = 这个服务器中没有这样的用户。
+errorInvalidPaymentAmount = 这不是一个有效的支付金额。
+errorInvalidShortcut = 该快捷方式不存在!
+errorInvalidSyntax = 无效语法!
+errorMissingCoins = 没有足够的金币!
+errorMissingCoinsLong = 你不能赌博超过你的价值!
+errorMissingSuggestion = 你必须提供一个建议!
+errorNegativePayment = 你不能支付负数!
+errorNoSuggestionsChannel = 没有建议频道! 请创建一个。
+errorPositivesOnly = 只有正数。
+errorPositivesOnlyLong = 不要这么消极。或者毫无价值。
+errorTicketAlreadyOpen = 你已经有了一个票据!
+
+#＃信息
+infoCloseTicket = 要关闭这个票据，说%prefix%close。
+infoCommands = 命令
+infoCommandsLong = Aphelia官方命令.
+infoDefineShortcuts = *没有定义任何快捷方式。去定义一些（或者，如果你没有权限，请经理帮你定义）！*。
+infoInvalidBalanceLong = 该格式似乎是错误的。检查用户是否存在，金额是否是有效的整数。
+infoNoBaseTicket = *在这个服务器中没有基本票通道! 更多信息，请点击[这里](https://aphelia.github.io/tickethelp/).*。
+infoShortcutsLong = 这个服务器的用户定义的快捷方式。
+infoYouLost = 你输了!
+infoYourBalance = 你的余额
+infoYouWon = 你赢了!
+
+#权限
+permissionManageServer = 管理服务器
+
+#短语(拼接到消息中，其中大部分将被改为以后使用占位符)。
+phraseBalanceCapitalized = Balance。
+phraseMadeBy = by
+phraseSentBy = Sent by
+phraseShortcuts = Shortcuts.
+phraseYouPaid = You paid
+
+#＃成功的消息
+successComChecks = ComChecks完成，待机启动。```网关平：%gatewayping%ms/nREST平：%restping%ms```。
+successMessageAutoDeleted = 您的信息已被自动删除。
+successShortcutAdded = 添加了快捷方式!
+successShortcutDeleted = 删除了快捷方式!
+successTokenSet = 设置了快捷键

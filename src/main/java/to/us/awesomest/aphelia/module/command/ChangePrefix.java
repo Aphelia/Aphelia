@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 import to.us.awesomest.aphelia.module.ModuleManager;
 
@@ -22,7 +23,7 @@ public class ChangePrefix implements Command {
         String args = CommandUtils.getArgs(message.getContentRaw());
         Guild guild = message.getGuild();
         if (!guild.getMember(author).hasPermission(Permission.MANAGE_SERVER)) {
-            MessagingUtils.sendNoPermissions(channel, "Manage Server");
+            MessagingUtils.sendNoPermissions(channel, LanguageUtils.getMessage(message.getGuild(), "permissionManageServer"));
             return false;
         }
         if (args.trim().isEmpty()) {

@@ -1,0 +1,50 @@
+#Anuncios (para usuarios molestos)
+adCommandSet = *¿Como mi conjunto de comandos? [¡Invítame!](https://aphelia.github.io/invite)*
+adLikeThis = *¿Así? [Invítame](https://aphelia.github.io/invite)!*
+adShortcutFeature = *¿Te gusta la función de atajo? [¡Invítame!](https://aphelia.github.io/invite)*
+
+#Errores
+errorBlankShortcut = No puedes tener un atajo con una salida en blanco!
+errorChannelNotTicket = ¡Este canal no es un ticket!
+errorInvalidLanguage = Lenguaje inválido: por favor usa un formato como ``en_US``.
+errorInvalidMember = No hay tal usuario en este servidor.
+errorInvalidPaymentAmount = Esa no es una cantidad válida para pagar.
+errorInvalidShortcut = ¡Ese atajo no existe!
+errorInvalidSyntax = ¡Sintaxis inválida!
+errorMissingCoins = ¡No hay suficientes monedas!
+errorMissingCoinsLong = ¡No puedes apostar más de lo que vales!
+errorMissingSuggestion = ¡Debes dar una sugerencia!
+errorNegativePayment = ¡No puedes pagar una cantidad negativa!
+errorNoSuggestionsChannel = ¡No hay un canal de sugerencias! Por favor, crea uno.
+errorPositivesOnly = Sólo positivos.
+errorPositivesOnlyLong = No seas tan negativo. O inútil.
+errorTicketAlreadyOpen = ¡Ya tienes un ticket abierto!
+
+#Información
+infoCloseTicket = Para cerrar este ticket, digamos %prefix%close.
+infoCommands = Comandos
+infoCommandsLong = Los comandos oficiales de Aphelia.
+infoDefineShortcuts = *No se han definido atajos. Ve a definir algunos (o, si no tienes permisos, pídele a un administrador que lo haga por ti)!*
+infoInvalidBalanceLong = Ese formato parece estar equivocado. Comprueba que el usuario existe y que la cantidad es un entero válido.
+infoNoBaseTicket = *¡No hay ningún canal de ticket base en este servidor! Para obtener más información, haga clic [aquí](https://aphelia.github.io/tickethelp/).*
+infoShortcutsLong = Los atajos definidos por el usuario para este servidor.
+infoYouLost = ¡Has perdido!
+infoYourBalance = Tu saldo
+infoYouWon = ¡Ganaste!
+
+#Permisos
+permissionManageServer = Manage Server
+
+#Frases (divididas en mensajes, la mayoría de ellas serán cambiadas para usar marcadores de posición más tarde).
+phraseBalanceCapitalized = Balance
+phraseMadeBy = by
+phraseSentBy = Enviado por
+phraseShortcuts = Atajos
+phraseYouPaid = Usted pagó
+
+#Mensajes de éxito
+successComChecks = ComChecks completo, en espera de lanzamiento. "Gateway Ping: Gatewayping%msREST Ping: Resting%ms
+successMessageAutoDeleted = Su mensaje ha sido borrado automáticamente.
+successShortcutAdded = ¡Acceso directo añadido!
+successShortcutDeleted = ¡Acceso directo eliminado!
+successTokenSet = ¡Un juego de fichas!

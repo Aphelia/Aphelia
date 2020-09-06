@@ -1,1 +1,50 @@
-comChecksSuccess = ComChecks complete, standby for launch. ```Gateway Ping: %gatewayping%ms\nREST Ping: %restping%ms```
+#Ads (for nagging users)
+adCommandSet = *Like my command set? [Invite me!](https://aphelia.github.io/invite)*
+adLikeThis = *Like this? [Invite me](https://aphelia.github.io/invite)!*
+adShortcutFeature = *Like the shortcut feature? [Invite me!](https://aphelia.github.io/invite)*
+
+#Errors
+errorBlankShortcut = You can't have a shortcut with a blank output!
+errorChannelNotTicket = This channel is not a ticket!
+errorInvalidLanguage = Invalid language: please use a format like ``en_US``.
+errorInvalidMember = No such user is in this server.
+errorInvalidPaymentAmount = That's not a valid amount to pay.
+errorInvalidShortcut = That shortcut does not exist!
+errorInvalidSyntax = Invalid Syntax!
+errorMissingCoins = Not enough coins!
+errorMissingCoinsLong = You can't gamble more than you're worth!
+errorMissingSuggestion = You must supply a suggestion!
+errorNegativePayment = You can't pay a negative amount!
+errorNoSuggestionsChannel = There is no suggestions channel! Please create one.
+errorPositivesOnly = Positives only.
+errorPositivesOnlyLong = Don't be so negative. Or worthless.
+errorTicketAlreadyOpen = You already have a ticket open!
+
+#Information
+infoCloseTicket = To close this ticket, say %prefix%close.
+infoCommands = Commands
+infoCommandsLong = The official Aphelia commands.
+infoDefineShortcuts = *No shortcuts have been defined. Go define some (or, if you don't have permissions, ask a manager to do it for you)!*
+infoInvalidBalanceLong = That formatting seems to be wrong. Check that the user exists and the amount is a valid integer.
+infoNoBaseTicket = *There is no base ticket channel in this server! For more info, click [here](https://aphelia.github.io/tickethelp/).*
+infoShortcutsLong = The user defined shortcuts for this server.
+infoYouLost = You lost!
+infoYourBalance = Your balance
+infoYouWon = You won!
+
+#Permissions
+permissionManageServer = Manage Server
+
+#Phrases (spliced into messages, most of these will be changed to use placeholders later).
+phraseBalanceCapitalized = Balance
+phraseMadeBy = by
+phraseSentBy = Sent by
+phraseShortcuts = Shortcuts
+phraseYouPaid = You paid
+
+#Success messages
+successComChecks = ComChecks complete, standby for launch. ```Gateway Ping: %gatewayping%ms\nREST Ping: %restping%ms```
+successMessageAutoDeleted = Your message has automatically been deleted.
+successShortcutAdded = Shortcut added!
+successShortcutDeleted = Shortcut deleted!
+successTokenSet = Token set!

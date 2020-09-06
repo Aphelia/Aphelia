@@ -31,7 +31,7 @@ public class ChangeLang implements Command {
             return false;
         }
         if(!LanguageUtils.isValidLang(args)) {
-            MessagingUtils.sendError(channel, "Invalid language: please use a format like ``en_US``");
+            MessagingUtils.sendError(channel, LanguageUtils.getMessage(message.getGuild(), "errorInvalidMember"));
             return false;
         }
         LangData.getInstanceByGuildId(guild.getId()).setEntry(null, args);
@@ -46,6 +46,6 @@ public class ChangeLang implements Command {
 
     @Override
     public String getDescription() {
-        return "Change the guild's language.";
+        return "Change the guild's language. *Note: Some languages are machine translated and thus may have errors.*";
     }
 }

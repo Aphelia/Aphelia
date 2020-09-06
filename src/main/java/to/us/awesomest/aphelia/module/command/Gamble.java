@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import to.us.awesomest.aphelia.data.CoinData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
@@ -30,18 +31,18 @@ public class Gamble implements Command {
             if (Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) < Integer.parseInt(args)) {
                 EmbedBuilder feedbackBuilder = new EmbedBuilder();
                 feedbackBuilder
-                        .setTitle("Not enough money!")
+                        .setTitle(LanguageUtils.getMessage(message.getGuild(), "errorMissingCoins"))
                         .setColor(new Color(0, 255, 0))
-                        .setDescription("You can't gamble more than you're worth!");
+                        .setDescription(LanguageUtils.getMessage(message.getGuild(), "errorMissingCoinsLong"));
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return false;
             }
             if (Integer.parseInt(args) <= 0) {
                 EmbedBuilder feedbackBuilder = new EmbedBuilder();
                 feedbackBuilder
-                        .setTitle("Positives only.")
+                        .setTitle(LanguageUtils.getMessage(message.getGuild(), "errorPositivesOnly"))
                         .setColor(new Color(0, 255, 0))
-                        .setDescription("Don't be so negative. Or worthless.");
+                        .setDescription(LanguageUtils.getMessage(message.getGuild(), "errorPositivesOnlyLong"));
                 channel.sendMessage(feedbackBuilder.build()).queue();
                 return false;
             }
@@ -49,18 +50,18 @@ public class Gamble implements Command {
                 bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) + Integer.parseInt(args));
                 EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
                 balanceInfoBuilder
-                        .setTitle("You won!")
+                        .setTitle(LanguageUtils.getMessage(message.getGuild(), "infoYouWon"))
                         .setColor(new Color(0, 255, 0))
-                        .addField("Your balance:", bal, false);
+                        .addField(LanguageUtils.getMessage(message.getGuild(), "infoYourBalance") + ":", bal, false);
                 channel.sendMessage(balanceInfoBuilder.build()).queue();
             }
             else {
                 bal = String.valueOf(Integer.parseInt(CoinData.getInstanceByGuildId(guild.getId()).getEntry(author.getId())) - Integer.parseInt(args));
                 EmbedBuilder balanceInfoBuilder = new EmbedBuilder();
                 balanceInfoBuilder
-                        .setTitle("You lost!")
+                        .setTitle(LanguageUtils.getMessage(message.getGuild(), "infoYouLost"))
                         .setColor(new Color(255, 0, 0))
-                        .addField("Your balance:", bal, false);
+                        .addField(LanguageUtils.getMessage(message.getGuild(), "infoYourBalance") + ":", bal, false);
                 channel.sendMessage(balanceInfoBuilder.build()).queue();
             }
             CoinData.getInstanceByGuildId(guild.getId()).setEntry(author.getId(), bal);

@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.slf4j.LoggerFactory;
 import to.us.awesomest.aphelia.data.MCData;
+import to.us.awesomest.aphelia.globalutils.LanguageUtils;
 import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
@@ -22,14 +23,14 @@ public class ConnectMC implements Command {
         String args = CommandUtils.getArgs(message.getContentRaw());
         //noinspection ConstantConditions
         if (channel.getType().isGuild() && !message.getGuild().getMember(message.getAuthor()).hasPermission(Permission.MANAGE_SERVER)) {
-            MessagingUtils.sendNoPermissions(channel, "Manage Server");
+            MessagingUtils.sendNoPermissions(channel, LanguageUtils.getMessage(message.getGuild(), "permissionManageServer"));
             return false;
         }
         if (args.trim().isEmpty()) {
             EmbedBuilder commandListBuilder = new EmbedBuilder();
             commandListBuilder
                     .setColor(new Color(255, 0, 0))
-                    .setTitle("Invalid Syntax!")
+                    .setTitle(LanguageUtils.getMessage(message.getGuild(), "errorInvalidSyntax"))
                     .setDescription("Usage: !connectMC <token>");
             channel.sendMessage(commandListBuilder.build()).queue();
             return false;
@@ -40,8 +41,8 @@ public class ConnectMC implements Command {
         EmbedBuilder feedbackBuilder = new EmbedBuilder();
         feedbackBuilder
                 .setColor(new Color(0, 255, 0))
-                .setTitle("Token set!")
-                .setDescription("Your message has automatically been deleted.");
+                .setTitle(LanguageUtils.getMessage(message.getGuild(), "successTokenSet"))
+                .setDescription(LanguageUtils.getMessage(message.getGuild(), "successMessageAutoDeleted"));
         channel.sendMessage(feedbackBuilder.build()).queue();
         return true;
     }

@@ -15,7 +15,9 @@ public final class LanguageUtils {
     private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
     static final String[] langList = {
             "en_US",
-            "fr_FR"
+            "fr_FR",
+            "es_ES",
+            "zh_CN"
     };
 
     private static void initialize() {
