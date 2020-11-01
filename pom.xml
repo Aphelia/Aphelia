@@ -6,7 +6,7 @@
 
     <groupId>to.us.awesomest</groupId>
     <artifactId>Aphelia</artifactId>
-    <version>0.13.0</version>
+    <version>0.13.1</version>
     <build>
         <plugins>
             <plugin>
