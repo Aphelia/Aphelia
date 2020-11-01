@@ -16,6 +16,8 @@ public class CloseTicket implements Command {
 
     @Override
     public boolean run(Message message) {
+        MessagingUtils.sendError(message.getChannel(), "This command has temporarily been globally disabled.");
+        if(true) return true; //add if true to prevent unreachable checks
         MessageChannel channel = message.getChannel();
         Member member = message.getGuild().getMember(message.getAuthor());
         assert member != null;

@@ -43,7 +43,7 @@ phraseShortcuts = Shortcuts.
 phraseYouPaid = You paid
 
 #＃成功的消息
-successComChecks = ComChecks完成，待机启动。```网关平：%gatewayping%ms/nREST平：%restping%ms```。
+successComChecks = ComChecks完成，待机启动。```网关平：%gatewayping%ms\nREST平：%restping%ms```
 successMessageAutoDeleted = 您的信息已被自动删除。
 successShortcutAdded = 添加了快捷方式!
 successShortcutDeleted = 删除了快捷方式!

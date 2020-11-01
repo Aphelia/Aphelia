@@ -17,6 +17,8 @@ public class Ticket implements Command {
 
     @Override
     public boolean run(Message message) {
+        MessagingUtils.sendError(message.getChannel(), "This command has temporarily been globally disabled.");
+        if(true) return true; //add if true to prevent unreachable checks
         User author = message.getAuthor();
         MessageChannel channel = message.getChannel();
         String args = CommandUtils.getArgs(message.getContentRaw());

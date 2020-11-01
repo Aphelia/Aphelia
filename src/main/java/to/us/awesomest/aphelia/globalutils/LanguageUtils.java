@@ -17,7 +17,8 @@ public final class LanguageUtils {
             "en_US",
             "fr_FR",
             "es_ES",
-            "zh_CN"
+            "zh_CN",
+            "nb_NO"
     };
 
     private static void initialize() {

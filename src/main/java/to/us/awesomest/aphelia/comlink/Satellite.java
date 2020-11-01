@@ -1,11 +1,16 @@
 package to.us.awesomest.aphelia.comlink;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.google.gson.Gson;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import org.slf4j.LoggerFactory;
 import to.us.awesomest.aphelia.Aphelia;
 import to.us.awesomest.aphelia.data.MCData;
+import to.us.awesomest.aphelia.data.WebhookData;
+import to.us.awesomest.aphelia.module.MessagingUtils;
 
 import java.awt.*;
 import java.io.DataInputStream;
@@ -26,7 +31,7 @@ public class Satellite extends Thread {
     private static final HashMap<String, DataOutputStream> outputSocketMap = new HashMap<>();
     static Gson json = new Gson();
     private static Satellite instance;
-    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf('§') + "[0-9A-FK-OR]");
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + '§' + "[0-9A-FK-OR]");
 
     private Satellite() {
     }
@@ -108,9 +113,18 @@ public class Satellite extends Thread {
         private static void processByType(TextChannel discordChannel, HashMap<String, String> data) {
             switch(data.get("type")) {
                 case "CHAT":
-                    discordChannel.sendMessage("**" + data.get("user") + "**: " + stripColor(data.get("content"))).queue();
+                    /*discordChannel.sendMessage("**" + data.get("user") + "**: " + stripColor(data.get("content"))).queue();
                     System.out.println("Sent " + stripColor(data.get("content")));
-                    System.out.println("Listening...");
+                    System.out.println("Listening...");*/
+                    try {
+                        if (!WebhookData.getInstanceByGuildId(discordChannel.getGuild().getId()).hasEntry(discordChannel.getId()))
+                            WebhookData.getInstanceByGuildId(discordChannel.getGuild().getId()).setEntry(discordChannel.getId(), discordChannel.createWebhook("Aphelia Webhook").complete().getUrl());
+                    } catch(InsufficientPermissionException e) {
+                        MessagingUtils.sendError(discordChannel, "I need the permission **Manage Webhooks**");
+                        return;
+                    }
+                    WebhookMessageBuilder messageBuilder = new WebhookMessageBuilder().setContent(data.get("content")).setUsername(data.get("user") + " (on Minecraft)").setAvatarUrl("https://minecraftskinstealer.com/api/v1/skin/download/bust/" + data.get("user"));
+                    WebhookClient.withUrl(WebhookData.getInstanceByGuildId(discordChannel.getGuild().getId()).getEntry(discordChannel.getId())).send(messageBuilder.build());
                     break;
                 case "JOIN":
                     EmbedBuilder joinMessageBuilder = new EmbedBuilder();

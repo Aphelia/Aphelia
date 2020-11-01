@@ -43,7 +43,7 @@ phraseShortcuts = raccourcis
 phraseYouPaid = Vous avez payé
 
 #Messages de succès
-successComChecks = ComChecks complet, en attente de lancement. "Gateway Ping : %gatewayping%ms\nREST Ping : %restping%ms``
+successComChecks = ComChecks complet, en attente de lancement. ```Gateway Ping : %gatewayping%ms\nREST Ping : %restping%ms```
 successMessageAutoDeleted = Votre message a été automatiquement supprimé.
 successShortcutAdded = Raccourci ajouté !
 successShortcutDeleted = Raccourci supprimé !

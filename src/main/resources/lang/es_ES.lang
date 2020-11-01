@@ -43,7 +43,7 @@ phraseShortcuts = Atajos
 phraseYouPaid = Usted pagó
 
 #Mensajes de éxito
-successComChecks = ComChecks completo, en espera de lanzamiento. "Gateway Ping: Gatewayping%msREST Ping: Resting%ms
+successComChecks = ComChecks completo, en espera de lanzamiento. ```Gateway Ping: %gatewayping%ms\nREST Ping: %restping%ms```
 successMessageAutoDeleted = Su mensaje ha sido borrado automáticamente.
 successShortcutAdded = ¡Acceso directo añadido!
 successShortcutDeleted = ¡Acceso directo eliminado!
